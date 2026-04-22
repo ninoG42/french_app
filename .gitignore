@@ -272,3 +272,8 @@ french_test_app/media/
 
 .pytest_cache/
 .ipython/
+
+# Local dev files
+.env
+db.sqlite3
+pdfs/

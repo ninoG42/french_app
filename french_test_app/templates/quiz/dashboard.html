@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% load quiz_tags %}
+
+{% block title %}Tableau de bord — OP001{% endblock %}
+
+{% block content %}
+<div class="row g-3 mt-2">
+
+  <!-- Overall stats cards -->
+  <div class="col-6 col-md-3">
+    <div class="card text-bg-primary h-100">
+      <div class="card-body text-center p-2 p-md-3">
+        <div class="fs-2 fw-bold">{{ total_questions }}</div>
+        <small>Questions</small>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card text-bg-success h-100">
+      <div class="card-body text-center p-2 p-md-3">
+        <div class="fs-2 fw-bold">{{ strong_count }}</div>
+        <small>Acquises</small>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card text-bg-warning h-100">
+      <div class="card-body text-center p-2 p-md-3">
+        <div class="fs-2 fw-bold">{{ medium_count }}</div>
+        <small>En cours</small>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card text-bg-danger h-100">
+      <div class="card-body text-center p-2 p-md-3">
+        <div class="fs-2 fw-bold">{{ weak_count }}</div>
+        <small>À revoir</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Progress overview -->
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Progression globale</h5>
+
+        <div class="mb-3">
+          <div class="d-flex justify-content-between mb-1">
+            <span>Questions vues</span>
+            <span>{{ seen_count }} / {{ total_questions }}</span>
+          </div>
+          <div class="progress" style="height: 20px;">
+            {% widthratio strong_count total_questions 100 as pct_strong %}
+            {% widthratio medium_count total_questions 100 as pct_medium %}
+            {% widthratio weak_count total_questions 100 as pct_weak %}
+            <div class="progress-bar bg-success" style="width: {{ pct_strong }}%">{{ pct_strong }}%</div>
+            <div class="progress-bar bg-warning" style="width: {{ pct_medium }}%">{{ pct_medium }}%</div>
+            <div class="progress-bar bg-danger" style="width: {{ pct_weak }}%">{{ pct_weak }}%</div>
+          </div>
+          <div class="d-flex gap-3 mt-1 small text-muted">
+            <span class="text-success">&#9632; Acquises</span>
+            <span class="text-warning">&#9632; En cours</span>
+            <span class="text-danger">&#9632; À revoir</span>
+            <span>&#9633; Non vues: {{ unseen_count }}</span>
+          </div>
+        </div>
+
+        <div class="row text-center g-2 mb-3">
+          <div class="col-4">
+            <div class="border rounded p-2">
+              <div class="fw-bold">{{ total_answers }}</div>
+              <small class="text-muted">Réponses</small>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="border rounded p-2">
+              <div class="fw-bold">{{ overall_rate|percentage }}</div>
+              <small class="text-muted">Taux correct</small>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="border rounded p-2">
+              <div class="fw-bold">{{ anti_hasard_score|floatformat:1 }}</div>
+              <small class="text-muted">Score anti-hasard</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between small text-muted">
+          <span>Répondues &ge;5 fois : {{ five_plus }}</span>
+          <span>Passées : {{ skip_count }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Start practice -->
+  <div class="col-12">
+    <div class="card border-primary">
+      <div class="card-body">
+        <h5 class="card-title">Commencer l'entraînement</h5>
+        <form method="get" action="{% url 'quiz:practice' %}" class="row g-2 align-items-end">
+          <div class="col-12 col-sm-4">
+            <label class="form-label" for="id_category">Catégorie</label>
+            <select name="category" id="id_category" class="form-select">
+              <option value="">Toutes</option>
+              <option value="orthographe">Orthographe</option>
+              <option value="syntaxe">Syntaxe</option>
+              <option value="vocabulaire">Vocabulaire</option>
+            </select>
+          </div>
+          <div class="col-12 col-sm-4">
+            <label class="form-label" for="id_exam">Exemple</label>
+            <select name="exam" id="id_exam" class="form-select">
+              <option value="">Tous</option>
+              {% for e in exams %}
+              <option value="{{ e.number }}">Exemple {{ e.number }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-12 col-sm-4">
+            <button type="submit" class="btn btn-primary w-100 btn-lg">
+              Commencer &rarr;
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category breakdown -->
+  <div class="col-12 col-md-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title">Par catégorie</h5>
+        {% for cat in categories %}
+        <div class="mb-3">
+          <div class="d-flex justify-content-between">
+            <strong>{{ cat.name }}</strong>
+            <span class="text-muted small">{{ cat.seen }}/{{ cat.total }}</span>
+          </div>
+          <div class="progress" style="height: 12px;">
+            {% widthratio cat.strong cat.total 100 as cs %}
+            {% widthratio cat.medium cat.total 100 as cm %}
+            {% widthratio cat.weak cat.total 100 as cw %}
+            <div class="progress-bar bg-success" style="width:{{ cs }}%"></div>
+            <div class="progress-bar bg-warning" style="width:{{ cm }}%"></div>
+            <div class="progress-bar bg-danger" style="width:{{ cw }}%"></div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Exam breakdown -->
+  <div class="col-12 col-md-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title">Par exemple</h5>
+        {% for e in exams %}
+        <div class="mb-3">
+          <div class="d-flex justify-content-between">
+            <strong>Exemple {{ e.number }}</strong>
+            <span class="text-muted small">{{ e.seen }}/{{ e.total }}</span>
+          </div>
+          <div class="progress" style="height: 12px;">
+            {% widthratio e.seen e.total 100 as ev %}
+            <div class="progress-bar bg-info" style="width:{{ ev }}%"></div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Reset -->
+  <div class="col-12 text-center mb-4">
+    <form method="post" action="{% url 'quiz:reset_progress' %}" onsubmit="return confirm('Êtes-vous sûr(e) ? Toute la progression sera effacée.')">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-outline-danger btn-sm">
+        Réinitialiser la progression
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

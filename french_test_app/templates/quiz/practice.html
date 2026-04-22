@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load quiz_tags %}
+
+{% block title %}Question — OP001{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-3">
+  <div class="col-12 col-md-8 col-lg-6">
+
+    <!-- Question header -->
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <span class="badge bg-secondary">
+        Ex. {{ question.exam_number }} — Q{{ question.question_number }}
+      </span>
+      <span class="badge
+        {% if question.category == 'orthographe' %}bg-info
+        {% elif question.category == 'syntaxe' %}bg-purple
+        {% else %}bg-dark{% endif %}">
+        {{ question.get_category_display }}
+      </span>
+    </div>
+
+    {% if progress %}
+    <div class="small text-muted mb-2">
+      Vue {{ progress.times_shown }}× · Correct {{ progress.times_correct }}× ·
+      <span class="
+        {% if progress.strength == 'strong' %}text-success
+        {% elif progress.strength == 'medium' %}text-warning
+        {% elif progress.strength == 'weak' %}text-danger
+        {% else %}text-muted{% endif %}">
+        {{ progress.get_strength_display }}
+      </span>
+    </div>
+    {% endif %}
+
+    <!-- Reference text for vocabulaire -->
+    {% if question.reference_text %}
+    <div class="card mb-3">
+      <div class="card-body p-2">
+        <button class="btn btn-sm btn-outline-secondary w-100" type="button"
+                data-bs-toggle="collapse" data-bs-target="#refText">
+          Voir le texte de référence
+        </button>
+        <div class="collapse mt-2" id="refText">
+          <div class="small" style="max-height: 300px; overflow-y: auto;">
+            {{ question.reference_text|linebreaksbr }}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Question text -->
+    <div class="card mb-3">
+      <div class="card-body">
+        <p class="mb-0">{{ question.question_text|safe }}</p>
+      </div>
+    </div>
+
+    <!-- Answer form -->
+    <form method="post" action="{% url 'quiz:answer' question.pk %}">
+      {% csrf_token %}
+      <input type="hidden" name="category" value="{{ category }}">
+      <input type="hidden" name="exam_number" value="{{ exam_number|default:'' }}">
+
+      <div class="d-grid gap-2 mb-3">
+        {% for code, text in options %}
+        <button type="submit" name="answer" value="{{ code }}"
+                class="btn btn-outline-dark text-start py-3 px-3">
+          <strong>{{ code }}</strong> &mdash; {{ text }}
+        </button>
+        {% endfor %}
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <button type="submit" name="answer" value="S" class="btn btn-outline-secondary">
+          Passer &rarr;
+        </button>
+        <a href="{% url 'quiz:dashboard' %}" class="btn btn-outline-secondary">
+          Tableau de bord
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

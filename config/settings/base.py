@@ -75,13 +75,12 @@ THIRD_PARTY_APPS = [
     "crispy_bootstrap5",
     "allauth",
     "allauth.account",
-    "allauth.mfa",
     "allauth.socialaccount",
 ]
 
 LOCAL_APPS = [
     "french_test_app.users",
-    # Your stuff: custom apps go here
+    "french_test_app.quiz",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -256,8 +255,8 @@ LOGGING = {
     "root": {"level": "INFO", "handlers": ["console"]},
 }
 
-REDIS_URL = env("REDIS_URL", default="redis://redis:6379/0")
-REDIS_SSL = REDIS_URL.startswith("rediss://")
+REDIS_URL = env("REDIS_URL", default="")
+REDIS_SSL = REDIS_URL.startswith("rediss://") if REDIS_URL else False
 
 
 # django-allauth

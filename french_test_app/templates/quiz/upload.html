@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Importer un QCM — OP001{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-3">
+  <div class="col-12 col-md-8 col-lg-7">
+
+    <h4 class="mb-3">Importer un nouveau QCM</h4>
+    <p class="text-muted small">
+      Téléversez le corrigé PDF (obligatoire) et le questionnaire PDF (optionnel, pour le texte de référence vocabulaire).
+      Indiquez l'ordre des sections et les réponses correctes.
+    </p>
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <!-- Exam number -->
+      <div class="mb-3">
+        <label for="id_exam_number" class="form-label fw-bold">Numéro d'exemple</label>
+        <input type="number" name="exam_number" id="id_exam_number"
+               class="form-control" min="1" max="99"
+               value="{{ next_exam }}" required>
+        <div class="form-text">Numéro unique pour cet examen (suivant : {{ next_exam }}).</div>
+      </div>
+
+      <!-- PDF uploads -->
+      <div class="row g-3 mb-3">
+        <div class="col-12 col-sm-6">
+          <label for="id_corrige" class="form-label fw-bold">Corrigé PDF *</label>
+          <input type="file" name="corrige_pdf" id="id_corrige"
+                 class="form-control" accept=".pdf" required>
+          <div class="form-text">Contient les questions, options et explications.</div>
+        </div>
+        <div class="col-12 col-sm-6">
+          <label for="id_questionnaire" class="form-label fw-bold">Questionnaire PDF</label>
+          <input type="file" name="questionnaire_pdf" id="id_questionnaire"
+                 class="form-control" accept=".pdf">
+          <div class="form-text">Optionnel. Utilisé pour extraire le texte annexe (vocabulaire).</div>
+        </div>
+      </div>
+
+      <!-- Section order -->
+      <div class="mb-3">
+        <label class="form-label fw-bold">Ordre des sections</label>
+        <div class="row g-2">
+          <div class="col-4">
+            <label class="form-label small text-muted" for="id_s1">Q1–20</label>
+            <select name="section1" id="id_s1" class="form-select">
+              <option value="syntaxe" selected>Syntaxe</option>
+              <option value="orthographe">Orthographe</option>
+              <option value="vocabulaire">Vocabulaire</option>
+            </select>
+          </div>
+          <div class="col-4">
+            <label class="form-label small text-muted" for="id_s2">Q21–40</label>
+            <select name="section2" id="id_s2" class="form-select">
+              <option value="syntaxe">Syntaxe</option>
+              <option value="orthographe" selected>Orthographe</option>
+              <option value="vocabulaire">Vocabulaire</option>
+            </select>
+          </div>
+          <div class="col-4">
+            <label class="form-label small text-muted" for="id_s3">Q41–60</label>
+            <select name="section3" id="id_s3" class="form-select">
+              <option value="syntaxe">Syntaxe</option>
+              <option value="orthographe">Orthographe</option>
+              <option value="vocabulaire" selected>Vocabulaire</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Correct answers -->
+      <div class="mb-3">
+        <label for="id_answers" class="form-label fw-bold">Réponses correctes *</label>
+        <textarea name="answers" id="id_answers" class="form-control font-monospace"
+                  rows="4" required
+                  placeholder="3, A, 2, 2, T, T, A, 1, 2, 4, T, 1, 2, 4, 3, 3, A, T, 4, 2, ..."></textarea>
+        <div class="form-text">
+          60 réponses séparées par des virgules, dans l'ordre Q1 à Q60.
+          Valeurs acceptées : <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>,
+          <code>A</code> (Aucune), <code>T</code> (Toutes).
+        </div>
+      </div>
+
+      <!-- Answers helper -->
+      <div class="mb-3">
+        <button type="button" class="btn btn-sm btn-outline-secondary"
+                data-bs-toggle="collapse" data-bs-target="#answersHelp">
+          Aide pour les réponses
+        </button>
+        <div class="collapse mt-2" id="answersHelp">
+          <div class="card card-body small">
+            <p class="mb-1">Copiez les réponses depuis le corrigé dans l'ordre :</p>
+            <pre class="mb-1">3, A, 2, 2, T, T, A, 1, 2, 4, T, 1, 2, 4, 3, 3, A, T, 4, 2, A, 1, 4, 1, 4, 1, 3, 1, 3, 4, 1, 2, 3, 2, 2, A, 3, 4, 1, 2, 3, 2, T, 4, 4, 2, 4, 1, 1, 4, 2, 2, 2, 3, 4, 3, 2, A, 3, 3</pre>
+            <p class="mb-0 text-muted">Cet exemple correspond à l'Exemple 1. Vous pouvez aussi séparer par des espaces ou des points-virgules.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="d-grid gap-2 mb-4">
+        <button type="submit" class="btn btn-primary btn-lg">
+          Importer le QCM
+        </button>
+        <a href="{% url 'quiz:dashboard' %}" class="btn btn-outline-secondary">
+          Annuler
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

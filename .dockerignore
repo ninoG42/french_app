@@ -11,4 +11,8 @@ venv
 .git
 .envs/
 .venv/
+.env
 **/__pycache__/
+db.sqlite3
+pdfs/
+scripts/

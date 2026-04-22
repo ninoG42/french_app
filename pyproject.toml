@@ -13,14 +13,23 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-  
-  "django",
+  "django>=5.1",
+  "django-environ",
+  "django-allauth",
+  "django-crispy-forms",
+  "crispy-bootstrap5",
+  "whitenoise",
+  "gunicorn",
+  "argon2-cffi",
+  "pymupdf>=1.27.2.2",
+  "psycopg[binary]>=3.3.3",
 ]
 
 [dependency-groups]
 dev = [
-  
   "pytest",
+  "django-debug-toolbar",
+  "django-extensions",
 ]
 
 [tool.ruff]
