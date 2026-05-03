@@ -7,6 +7,12 @@
 <div class="row justify-content-center mt-3">
   <div class="col-12 col-md-8 col-lg-6">
 
+    {% if strength == "weak" %}
+    <div class="alert alert-danger py-2 mb-2 text-center small fw-bold">
+      Mode révision : questions à revoir uniquement
+    </div>
+    {% endif %}
+
     <!-- Question header -->
     <div class="d-flex justify-content-between align-items-center mb-2">
       <span class="badge bg-secondary">
@@ -62,6 +68,7 @@
       {% csrf_token %}
       <input type="hidden" name="category" value="{{ category }}">
       <input type="hidden" name="exam_number" value="{{ exam_number|default:'' }}">
+      <input type="hidden" name="strength" value="{{ strength }}">
 
       <div class="d-grid gap-2 mb-3">
         {% for code, text in options %}

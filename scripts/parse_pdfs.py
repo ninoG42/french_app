@@ -303,30 +303,48 @@ def build_fixture(pdf_dir: str, output_path: str):
         # Extract reference text for vocabulaire from questionnaire PDF
         ref_text = extract_reference_text(str(q_pdf))
         if ref_text:
-            # Trim to just the article text, removing navigation artifacts
             ref_text = re.sub(r"\s+", " ", ref_text).strip()
-            # Cap at reasonable length
             if len(ref_text) > 8000:
                 ref_text = ref_text[:8000] + "..."
 
-        # Parse all questions from corrigé (has questions + explanations)
+        # Parse questions+options from questionnaire (clean, no corrections)
+        quest_text = extract_full_text(str(q_pdf), preserve_bold=True)
+        quest_chunks = split_into_questions(quest_text)
+
+        # Parse explanations from corrigé
         corrige_text = extract_full_text(str(c_pdf), preserve_bold=True)
-        questions = split_into_questions(corrige_text)
+        corrige_chunks = split_into_questions(corrige_text)
+
         answers = CORRECT_ANSWERS[exam_num]
 
         parsed_count = 0
         for q_num in range(1, 61):
-            if q_num not in questions:
-                print(f"  WARNING: Question {q_num} not found in corrigé")
-                parsed = {
+            quest_parsed = (
+                parse_question_chunk(quest_chunks[q_num])
+                if q_num in quest_chunks
+                else None
+            )
+            corrige_parsed = (
+                parse_question_chunk(corrige_chunks[q_num])
+                if q_num in corrige_chunks
+                else None
+            )
+
+            if quest_parsed and quest_parsed["option_1"]:
+                source = quest_parsed
+            elif corrige_parsed:
+                print(f"  WARNING: Q{q_num} missing from questionnaire, using corrigé")
+                source = corrige_parsed
+            else:
+                print(f"  WARNING: Q{q_num} not found in either PDF")
+                source = {
                     "question_text": f"[Question {q_num} - parsing failed]",
                     "option_1": "", "option_2": "", "option_3": "", "option_4": "",
                     "option_a": "Aucune", "option_t": "Toutes",
-                    "explanation": "",
                 }
-            else:
-                parsed = parse_question_chunk(questions[q_num])
-                parsed_count += 1
+
+            explanation = corrige_parsed["explanation"] if corrige_parsed else ""
+            parsed_count += 1
 
             category = get_category(exam_num, q_num)
             is_vocab = category == "vocabulaire"
@@ -338,21 +356,21 @@ def build_fixture(pdf_dir: str, output_path: str):
                     "exam_number": exam_num,
                     "question_number": q_num,
                     "category": category,
-                    "question_text": parsed["question_text"],
-                    "option_1": parsed["option_1"],
-                    "option_2": parsed["option_2"],
-                    "option_3": parsed["option_3"],
-                    "option_4": parsed["option_4"],
-                    "option_a": parsed["option_a"],
-                    "option_t": parsed["option_t"],
+                    "question_text": source["question_text"],
+                    "option_1": source["option_1"],
+                    "option_2": source["option_2"],
+                    "option_3": source["option_3"],
+                    "option_4": source["option_4"],
+                    "option_a": source["option_a"],
+                    "option_t": source["option_t"],
                     "correct_answer": answers[q_num],
-                    "explanation": parsed["explanation"],
+                    "explanation": explanation,
                     "reference_text": ref_text if is_vocab else "",
                 },
             })
             pk += 1
 
-        print(f"  Parsed {parsed_count}/60 questions from corrigé")
+        print(f"  Parsed {parsed_count}/60 questions")
 
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(fixture, f, ensure_ascii=False, indent=2)

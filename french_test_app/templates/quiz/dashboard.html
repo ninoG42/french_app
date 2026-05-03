@@ -36,6 +36,13 @@
       <div class="card-body text-center p-2 p-md-3">
         <div class="fs-2 fw-bold">{{ weak_count }}</div>
         <small>À revoir</small>
+        {% if weak_count > 0 %}
+        <div class="mt-2">
+          <a href="{% url 'quiz:practice' %}?strength=weak" class="btn btn-sm btn-light">
+            Réviser
+          </a>
+        </div>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -137,11 +144,25 @@
         <h5 class="card-title">Par catégorie</h5>
         {% for cat in categories %}
         <div class="mb-3">
-          <div class="d-flex justify-content-between">
+          <div class="d-flex justify-content-between align-items-center">
             <strong>{{ cat.name }}</strong>
-            <span class="text-muted small">{{ cat.seen }}/{{ cat.total }}</span>
+            <div class="d-flex align-items-center gap-2">
+              <span class="text-muted small">{{ cat.seen }}/{{ cat.total }}</span>
+              <a href="{% url 'quiz:practice' %}?category={{ cat.value }}"
+                 class="btn btn-outline-primary btn-sm py-0 px-2"
+                 title="S'entraîner uniquement en {{ cat.name }}">
+                S'entraîner
+              </a>
+              {% if cat.weak > 0 %}
+              <a href="{% url 'quiz:practice' %}?category={{ cat.value }}&strength=weak"
+                 class="btn btn-outline-danger btn-sm py-0 px-2"
+                 title="Réviser les questions ratées en {{ cat.name }}">
+                Réviser ({{ cat.weak }})
+              </a>
+              {% endif %}
+            </div>
           </div>
-          <div class="progress" style="height: 12px;">
+          <div class="progress mt-1" style="height: 12px;">
             {% widthratio cat.strong cat.total 100 as cs %}
             {% widthratio cat.medium cat.total 100 as cm %}
             {% widthratio cat.weak cat.total 100 as cw %}

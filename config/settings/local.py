@@ -71,3 +71,6 @@ INSTALLED_APPS += ["django_extensions"]
 # Your stuff...
 # ------------------------------------------------------------------------------
 ACCOUNT_EMAIL_VERIFICATION = "none"
+
+# Google Gemini API
+GEMINI_API_KEY = env("GEMINI_API_KEY", default="AIzaSyDTL8wuN4ia_K-8H3Qp0gBNL-h6_7naMAI")

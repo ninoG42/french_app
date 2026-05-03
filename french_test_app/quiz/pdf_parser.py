@@ -63,7 +63,7 @@ def extract_plain_text(pdf_file) -> str:
 
 def split_into_questions(text: str) -> dict[int, str]:
     """Split text into per-question chunks keyed by question number."""
-    pattern = re.compile(r"(?=(?:<b>)?Question\s+(\d+)\s*(?:</b>)?\s*\n)")
+    pattern = re.compile(r"(?=(?:<b>)?Question\s*(?:</b>)?\s*(\d+)\s*(?:</b>)?\s*\n)")
     splits = list(pattern.finditer(text))
     result = {}
     for i, m in enumerate(splits):
@@ -78,7 +78,7 @@ def parse_question_chunk(chunk: str) -> dict:
     """Parse a single question chunk into structured data."""
     lines = chunk.split("\n")
 
-    header_match = re.match(r"(?:<b>)?Question\s+\d+\s*(?:</b>)?", lines[0])
+    header_match = re.match(r"(?:<b>)?Question\s*(?:</b>)?\s*\d+\s*(?:</b>)?", lines[0])
     if header_match:
         lines = lines[1:]
 
@@ -101,18 +101,12 @@ def parse_question_chunk(chunk: str) -> dict:
 
         if phase == "text":
             opt_m = option_pattern.match(line)
-            opt_a = option_a_pattern.match(line)
             if opt_m:
                 phase = "options"
                 options[opt_m.group(1)] = opt_m.group(2).strip()
                 continue
-            elif opt_a:
-                phase = "options"
-                options["A"] = opt_a.group(1).strip()
-                continue
-            else:
-                text_lines.append(line)
-                continue
+            text_lines.append(line)
+            continue
 
         if phase == "options":
             opt_m = option_pattern.match(line)
@@ -125,6 +119,9 @@ def parse_question_chunk(chunk: str) -> dict:
             elif opt_t:
                 options["T"] = opt_t.group(1).strip()
                 phase = "explanation"
+            elif "4" in options:
+                phase = "explanation"
+                explanation_lines.append(line)
             elif options:
                 last_key = list(options.keys())[-1]
                 options[last_key] += " " + line
@@ -138,6 +135,7 @@ def parse_question_chunk(chunk: str) -> dict:
     question_text = re.sub(r"\s+</b>", "</b>", question_text)
 
     explanation = re.sub(r"\s+", " ", " ".join(explanation_lines)).strip()
+    explanation = re.sub(r"^\d{1,2}\s+", "", explanation)  # strip leading page numbers
 
     return {
         "question_text": question_text,
@@ -194,12 +192,17 @@ def parse_exam_pdfs(
     answers=None,
 ):
     """
-    Parse a corrigé PDF (and optionally a questionnaire PDF) into a list
-    of question dicts ready to be saved as Question model instances.
+    Parse exam PDFs into a list of question dicts ready to be saved as
+    Question model instances.
+
+    When a questionnaire PDF is provided, question text and options are
+    taken from it (clean, without correction markup). The corrige PDF
+    is used only for explanations. When only the corrige is provided,
+    everything is extracted from it (backward-compatible fallback).
 
     Args:
         corrige_file: Corrigé PDF (path or UploadedFile).
-        questionnaire_file: Questionnaire PDF for reference text extraction.
+        questionnaire_file: Questionnaire PDF (path or UploadedFile).
         sections: Tuple of 3 category names for Q1-20, Q21-40, Q41-60.
         answers: Dict mapping question_number -> correct answer code,
                  or None to leave answers blank.
@@ -208,15 +211,40 @@ def parse_exam_pdfs(
         List of dicts with keys matching Question model fields (minus exam_number).
     """
     corrige_text = extract_text_with_bold(corrige_file)
-    chunks = split_into_questions(corrige_text)
+    corrige_chunks = split_into_questions(corrige_text)
 
+    quest_chunks = {}
     ref_text = ""
     if questionnaire_file:
+        quest_text = extract_text_with_bold(questionnaire_file)
+        quest_chunks = split_into_questions(quest_text)
         ref_text = extract_reference_text(questionnaire_file)
 
+    all_q_nums = sorted(set(corrige_chunks.keys()) | set(quest_chunks.keys()))
+
     results = []
-    for q_num in sorted(chunks.keys()):
-        parsed = parse_question_chunk(chunks[q_num])
+    for q_num in all_q_nums:
+        corrige_parsed = (
+            parse_question_chunk(corrige_chunks[q_num])
+            if q_num in corrige_chunks
+            else None
+        )
+        quest_parsed = (
+            parse_question_chunk(quest_chunks[q_num])
+            if q_num in quest_chunks
+            else None
+        )
+
+        if quest_parsed and quest_parsed["option_1"]:
+            source = quest_parsed
+        elif corrige_parsed:
+            source = corrige_parsed
+        else:
+            continue
+
+        explanation = ""
+        if corrige_parsed:
+            explanation = corrige_parsed["explanation"]
 
         if q_num <= 20:
             category = sections[0]
@@ -232,15 +260,15 @@ def parse_exam_pdfs(
         results.append({
             "question_number": q_num,
             "category": category,
-            "question_text": parsed["question_text"],
-            "option_1": parsed["option_1"],
-            "option_2": parsed["option_2"],
-            "option_3": parsed["option_3"],
-            "option_4": parsed["option_4"],
-            "option_a": parsed["option_a"],
-            "option_t": parsed["option_t"],
+            "question_text": source["question_text"],
+            "option_1": source["option_1"],
+            "option_2": source["option_2"],
+            "option_3": source["option_3"],
+            "option_4": source["option_4"],
+            "option_a": source["option_a"],
+            "option_t": source["option_t"],
             "correct_answer": correct,
-            "explanation": parsed["explanation"],
+            "explanation": explanation,
             "reference_text": ref_text if category == "vocabulaire" else "",
         })
 

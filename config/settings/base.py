@@ -45,7 +45,7 @@ LOCALE_PATHS = [str(BASE_DIR / "locale")]
 # DATABASES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
-DATABASES = {"default": env.db("DATABASE_URL")}
+DATABASES = {"default": env.db("DATABASE_URL", default="sqlite:///dev.db")}
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 # https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-DEFAULT_AUTO_FIELD
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
@@ -282,3 +282,4 @@ SOCIALACCOUNT_FORMS = {"signup": "french_test_app.users.forms.UserSocialSignupFo
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+GEMINI_API_KEY = env("GEMINI_API_KEY", default="")

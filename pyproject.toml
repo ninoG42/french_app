@@ -23,6 +23,7 @@ dependencies = [
   "argon2-cffi",
   "pymupdf>=1.27.2.2",
   "psycopg[binary]>=3.3.3",
+  "google-genai>=1.74.0",
 ]
 
 [dependency-groups]
@@ -30,6 +31,10 @@ dev = [
   "pytest",
   "django-debug-toolbar",
   "django-extensions",
+  "playwright>=1.59.0",
+  "pytest-playwright>=0.7.2",
+  "factory-boy>=3.3.3",
+  "pytest-django>=4.12.0",
 ]
 
 [tool.ruff]
@@ -106,7 +111,9 @@ keep_full_version = true
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "--ds=config.settings.test --reuse-db --import-mode=importlib"
+addopts = "--ds=config.settings.test --import-mode=importlib"
+pythonpath = ["."]
+DJANGO_SETTINGS_MODULE = "config.settings.test"
 python_files = [
   "tests.py",
   "test_*.py",

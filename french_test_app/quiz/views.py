@@ -1,11 +1,14 @@
+import json
 import logging
 import random
 import re
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.db.models import Count
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views.decorators.http import require_POST
@@ -16,14 +19,29 @@ logger = logging.getLogger(__name__)
 
 
 def _get_filter_params(request):
-    """Extract category and exam_number filters from GET params."""
+    """Extract category, exam_number, and strength filters from GET params."""
     category = request.GET.get("category", "")
     exam_number = request.GET.get("exam", "")
+    strength = request.GET.get("strength", "")
     try:
         exam_number = int(exam_number)
     except (ValueError, TypeError):
         exam_number = None
-    return category, exam_number
+    if strength not in ("weak", "medium", "strong"):
+        strength = ""
+    return category, exam_number, strength
+
+
+def _build_filter_qs(category="", exam_number=None, strength=""):
+    """Build a query string from filter params."""
+    parts = []
+    if category:
+        parts.append(f"category={category}")
+    if exam_number:
+        parts.append(f"exam={exam_number}")
+    if strength:
+        parts.append(f"strength={strength}")
+    return "?" + "&".join(parts) if parts else ""
 
 
 def _filtered_questions(category, exam_number):
@@ -36,9 +54,14 @@ def _filtered_questions(category, exam_number):
     return qs
 
 
-def select_next_question(user, category=None, exam_number=None):
+def select_next_question(user, category=None, exam_number=None, strength_filter=None):
     """
-    Priority-based question selection algorithm:
+    Priority-based question selection algorithm.
+
+    When strength_filter is set (e.g. "weak"), only questions with that
+    exact strength are returned -- useful for the "repeat failed" mode.
+
+    Default (no filter):
     1. Questions never seen (highest priority)
     2. Questions seen < 5 times, weighted by weakness
     3. Weak questions (correct_rate < 50%)
@@ -55,6 +78,15 @@ def select_next_question(user, category=None, exam_number=None):
         p.question_id: p
         for p in UserQuestionProgress.objects.filter(user=user, question_id__in=all_ids)
     }
+
+    if strength_filter:
+        filtered_ids = [
+            qid for qid in all_ids
+            if (prog := progress_map.get(qid)) and prog.strength == strength_filter
+        ]
+        if not filtered_ids:
+            return None
+        return Question.objects.get(pk=random.choice(filtered_ids))
 
     unseen = []
     under_five = []
@@ -75,11 +107,9 @@ def select_next_question(user, category=None, exam_number=None):
         else:
             strong.append(qid)
 
-    # Pick from highest priority non-empty bucket
     if unseen:
         chosen_id = random.choice(unseen)
     elif under_five:
-        # Weight by weakness: lower correct_rate = higher weight
         weights = [max(0.1, 1.0 - p.correct_rate) for _, p in under_five]
         chosen_id = random.choices([qid for qid, _ in under_five], weights=weights, k=1)[0]
     elif weak:
@@ -179,24 +209,20 @@ def dashboard(request):
 
 @login_required
 def practice(request):
-    category, exam_number = _get_filter_params(request)
-    question = select_next_question(request.user, category, exam_number)
+    category, exam_number, strength = _get_filter_params(request)
+    question = select_next_question(
+        request.user, category, exam_number, strength_filter=strength or None,
+    )
 
     if question is None:
-        messages.warning(request, "Aucune question disponible avec ces filtres.")
+        if strength:
+            messages.success(request, "Bravo ! Plus aucune question à revoir dans cette sélection.")
+        else:
+            messages.warning(request, "Aucune question disponible avec ces filtres.")
         return redirect("quiz:dashboard")
 
     progress = UserQuestionProgress.objects.filter(user=request.user, question=question).first()
-
-    # Build filter query string to preserve across pages
-    filter_qs = ""
-    parts = []
-    if category:
-        parts.append(f"category={category}")
-    if exam_number:
-        parts.append(f"exam={exam_number}")
-    if parts:
-        filter_qs = "?" + "&".join(parts)
+    filter_qs = _build_filter_qs(category, exam_number, strength)
 
     context = {
         "question": question,
@@ -204,6 +230,7 @@ def practice(request):
         "filter_qs": filter_qs,
         "category": category,
         "exam_number": exam_number,
+        "strength": strength,
         "options": [
             ("1", question.option_1),
             ("2", question.option_2),
@@ -248,14 +275,8 @@ def answer(request, question_id):
     # Preserve filters
     category = request.POST.get("category", "")
     exam_number = request.POST.get("exam_number", "")
-    filter_qs = ""
-    parts = []
-    if category:
-        parts.append(f"category={category}")
-    if exam_number:
-        parts.append(f"exam={exam_number}")
-    if parts:
-        filter_qs = "?" + "&".join(parts)
+    strength = request.POST.get("strength", "")
+    filter_qs = _build_filter_qs(category, exam_number, strength)
 
     return redirect(f"/quiz/feedback/{question.pk}/{filter_qs}")
 
@@ -270,15 +291,8 @@ def feedback(request, question_id):
     )
     progress = UserQuestionProgress.objects.filter(user=request.user, question=question).first()
 
-    category, exam_number = _get_filter_params(request)
-    filter_qs = ""
-    parts = []
-    if category:
-        parts.append(f"category={category}")
-    if exam_number:
-        parts.append(f"exam={exam_number}")
-    if parts:
-        filter_qs = "?" + "&".join(parts)
+    category, exam_number, strength = _get_filter_params(request)
+    filter_qs = _build_filter_qs(category, exam_number, strength)
 
     # Map answer codes to display text
     answer_map = {
@@ -326,8 +340,10 @@ def _parse_answers_string(raw: str) -> dict[int, str]:
     """
     Parse a comma-separated string of answers into {q_num: answer_code}.
     Accepts formats like "3,A,2,2,T,T,A,1,..." (60 values).
+    Splits on commas only so that empty slots (e.g. "3,A,,2") preserve
+    position alignment rather than shifting subsequent answers.
     """
-    tokens = [t.strip().upper() for t in re.split(r"[,;\s]+", raw.strip()) if t.strip()]
+    tokens = [t.strip().upper() for t in raw.strip().split(",")]
     result = {}
     for i, tok in enumerate(tokens, start=1):
         if tok in VALID_ANSWERS:
@@ -419,3 +435,61 @@ def upload_exam(request):
         f"({created + updated} questions au total).",
     )
     return redirect("quiz:dashboard")
+
+
+@login_required
+@require_POST
+def ai_explain(request, question_id):
+    """Call Google Gemini to generate a detailed explanation for a question."""
+    api_key = settings.GEMINI_API_KEY
+    if not api_key:
+        return JsonResponse(
+            {"error": "Clé API Gemini non configurée. Ajoutez GEMINI_API_KEY dans .env."},
+            status=503,
+        )
+
+    question = get_object_or_404(Question, pk=question_id)
+
+    options_text = "\n".join([
+        f"1 - {question.option_1}",
+        f"2 - {question.option_2}",
+        f"3 - {question.option_3}",
+        f"4 - {question.option_4}",
+        f"A - {question.option_a}",
+        f"T - {question.option_t}",
+    ])
+
+    prompt = f"""Tu es un professeur de français expert pour la préparation à l'examen OP001 (HEP Vaud).
+Un étudiant te demande d'expliquer la question suivante de la section "{question.get_category_display()}".
+
+**Question :**
+{question.question_text}
+
+**Options :**
+{options_text}
+
+**Réponse correcte : {question.correct_answer}**
+
+Donne une explication complète et pédagogique en français. Structure ta réponse ainsi :
+1. **Réponse** : Indique la bonne réponse et pourquoi elle est correcte.
+2. **Raisonnement** : Explique la règle de grammaire, d'orthographe ou de vocabulaire en jeu.
+3. **Pièges à éviter** : Signale les erreurs courantes et pourquoi les autres options sont fausses.
+4. **Astuce** : Donne un moyen mnémotechnique ou un conseil pour retenir la règle.
+
+Sois concis mais complet. Utilise un langage clair et accessible."""
+
+    try:
+        from google import genai
+
+        client = genai.Client(api_key=api_key)
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt,
+        )
+        return JsonResponse({"explanation": response.text})
+    except Exception:
+        logger.exception("Gemini API call failed for question %d", question_id)
+        return JsonResponse(
+            {"error": "Erreur lors de l'appel à l'API Gemini. Réessayez plus tard."},
+            status=502,
+        )

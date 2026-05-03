@@ -13,6 +13,7 @@ SECRET_KEY = env(
     "DJANGO_SECRET_KEY",
     default="!!!SET DJANGO_SECRET_KEY!!!",
 )
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0", "testserver"]  # noqa: S104
 # https://docs.djangoproject.com/en/dev/ref/settings/#test-runner
 TEST_RUNNER = "django.test.runner.DiscoverRunner"
 
@@ -34,5 +35,9 @@ TEMPLATES[0]["OPTIONS"]["debug"] = True  # type: ignore[index]
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = "http://media.testserver/"
+# ALLAUTH
+# ------------------------------------------------------------------------------
+ACCOUNT_EMAIL_VERIFICATION = "none"
+
 # Your stuff...
 # ------------------------------------------------------------------------------
