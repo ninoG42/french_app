@@ -6,4 +6,6 @@ set -o nounset
 
 
 python manage.py migrate
+python manage.py load_questions
+python manage.py loaddata french_test_app/fixtures/resources.json
 exec python manage.py runserver_plus 0.0.0.0:8000

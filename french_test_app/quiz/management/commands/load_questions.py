@@ -42,6 +42,8 @@ class Command(BaseCommand):
                 exam_number=fields["exam_number"],
                 question_number=fields["question_number"],
                 defaults={
+                    "source": fields.get("source", "exam"),
+                    "capsule_topic": fields.get("capsule_topic", ""),
                     "category": fields["category"],
                     "question_text": fields["question_text"],
                     "option_1": fields["option_1"],

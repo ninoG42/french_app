@@ -1,0 +1,1770 @@
+[
+{
+  "model": "quiz.resource",
+  "pk": 137,
+  "fields": {
+    "title": "10.1 Mise en situation",
+    "capsule_number": 10,
+    "topic": "Participe passé avec avoir",
+    "category": "orthographe",
+    "material_type": "mise_en_situation",
+    "pdf_file": "resources/resources/10_tX2GaL9.1_Mise_en_situation.pdf",
+    "order": 10
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 138,
+  "fields": {
+    "title": "11.1 Mise en situation",
+    "capsule_number": 11,
+    "topic": "Participe passé avec être",
+    "category": "orthographe",
+    "material_type": "mise_en_situation",
+    "pdf_file": "resources/resources/11_E7ty6Be.1_Mise_en_situation.pdf",
+    "order": 11
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 139,
+  "fields": {
+    "title": "12.1 Mise en situation",
+    "capsule_number": 12,
+    "topic": "Participe présent / adjectif verbal",
+    "category": "orthographe",
+    "material_type": "mise_en_situation",
+    "pdf_file": "resources/resources/12_Cz2KtbD.1_Mise_en_situation.pdf",
+    "order": 12
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 140,
+  "fields": {
+    "title": "13.1 Mise en situation",
+    "capsule_number": 13,
+    "topic": "Les adverbes",
+    "category": "orthographe",
+    "material_type": "mise_en_situation",
+    "pdf_file": "resources/resources/13_at1gSXy.1_Mise_en_situation.pdf",
+    "order": 13
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 141,
+  "fields": {
+    "title": "14.1 Mise en situation",
+    "capsule_number": 14,
+    "topic": "Les pronoms relatifs",
+    "category": "syntaxe",
+    "material_type": "mise_en_situation",
+    "pdf_file": "resources/resources/14_v5tMOE5.1_Mise_en_situation.pdf",
+    "order": 14
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 142,
+  "fields": {
+    "title": "15.1 Mise en situation",
+    "capsule_number": 15,
+    "topic": "Les pronoms (difficultés)",
+    "category": "syntaxe",
+    "material_type": "mise_en_situation",
+    "pdf_file": "resources/resources/15_sg22wdB.1_Mise_en_situation.pdf",
+    "order": 15
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 143,
+  "fields": {
+    "title": "16.1 Mise en situation",
+    "capsule_number": 16,
+    "topic": "Les accents",
+    "category": "orthographe",
+    "material_type": "mise_en_situation",
+    "pdf_file": "resources/resources/16_lbcJbsO.1_Mise_en_situation.pdf",
+    "order": 16
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 144,
+  "fields": {
+    "title": "17.1 Mise en situation",
+    "capsule_number": 17,
+    "topic": "Discours indirect",
+    "category": "syntaxe",
+    "material_type": "mise_en_situation",
+    "pdf_file": "resources/resources/17_0S2BU98.1_Mise_en_situation.pdf",
+    "order": 17
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 145,
+  "fields": {
+    "title": "18.1 Mise en situation (1)",
+    "capsule_number": 18,
+    "topic": "Les nombres et chiffres",
+    "category": "orthographe",
+    "material_type": "mise_en_situation",
+    "pdf_file": "resources/resources/18_jgq8az1.1_Mise_en_situation_1.pdf",
+    "order": 18
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 146,
+  "fields": {
+    "title": "18.1 Mise en situation",
+    "capsule_number": 18,
+    "topic": "Les nombres et chiffres",
+    "category": "orthographe",
+    "material_type": "mise_en_situation",
+    "pdf_file": "resources/resources/18_ASp7uuu.1_Mise_en_situation.pdf",
+    "order": 18
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 147,
+  "fields": {
+    "title": "19.1 Mise en situation",
+    "capsule_number": 19,
+    "topic": "Les ruptures syntaxiques",
+    "category": "syntaxe",
+    "material_type": "mise_en_situation",
+    "pdf_file": "resources/resources/19_bzm67AW.1_Mise_en_situation.pdf",
+    "order": 19
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 148,
+  "fields": {
+    "title": "2.1 Mise en situation",
+    "capsule_number": 2,
+    "topic": "Accord du verbe",
+    "category": "orthographe",
+    "material_type": "mise_en_situation",
+    "pdf_file": "resources/resources/2_nGdkdIc.1_Mise_en_situation.pdf",
+    "order": 2
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 149,
+  "fields": {
+    "title": "2.2 Théorie",
+    "capsule_number": 2,
+    "topic": "Accord du verbe",
+    "category": "orthographe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/2_MoFD8Rt.2_Théorie.pdf",
+    "order": 2
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 150,
+  "fields": {
+    "title": "20.1 Mise en situation",
+    "capsule_number": 20,
+    "topic": "La ponctuation",
+    "category": "syntaxe",
+    "material_type": "mise_en_situation",
+    "pdf_file": "resources/resources/20_MbNeTZh.1_Mise_en_situation.pdf",
+    "order": 20
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 151,
+  "fields": {
+    "title": "21.1 Mise en situation",
+    "capsule_number": 21,
+    "topic": "La conjugaison (difficultés)",
+    "category": "orthographe",
+    "material_type": "mise_en_situation",
+    "pdf_file": "resources/resources/21_6cBYHma.1_Mise_en_situation.pdf",
+    "order": 21
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 152,
+  "fields": {
+    "title": "3.1 Mise en situation",
+    "capsule_number": 3,
+    "topic": "Les homophones",
+    "category": "orthographe",
+    "material_type": "mise_en_situation",
+    "pdf_file": "resources/resources/3_YpgKzM1.1_Mise_en_situation.pdf",
+    "order": 3
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 153,
+  "fields": {
+    "title": "3.2 Théorie",
+    "capsule_number": 3,
+    "topic": "Les homophones",
+    "category": "orthographe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/3_fN53axt.2_Théorie.pdf",
+    "order": 3
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 154,
+  "fields": {
+    "title": "7.1 Mise en situation",
+    "capsule_number": 7,
+    "topic": "Quelque",
+    "category": "orthographe",
+    "material_type": "mise_en_situation",
+    "pdf_file": "resources/resources/7_JuiU2IQ.1_Mise_en_situation.pdf",
+    "order": 7
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 155,
+  "fields": {
+    "title": "7.2.Quelque exercices",
+    "capsule_number": 7,
+    "topic": "Quelque",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/7_sPKqpHG.2.Quelque_exercices.pdf",
+    "order": 7
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 156,
+  "fields": {
+    "title": "8.1 Mise en situation",
+    "capsule_number": 8,
+    "topic": "Tout",
+    "category": "orthographe",
+    "material_type": "mise_en_situation",
+    "pdf_file": "resources/resources/8_d1Pu41C.1_Mise_en_situation.pdf",
+    "order": 8
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 157,
+  "fields": {
+    "title": "9.1 Mise en situation",
+    "capsule_number": 9,
+    "topic": "Participe passé sans auxiliaire",
+    "category": "orthographe",
+    "material_type": "mise_en_situation",
+    "pdf_file": "resources/resources/9_v6urKHu.1_Mise_en_situation.pdf",
+    "order": 9
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 158,
+  "fields": {
+    "title": "Accents aigu exercices",
+    "capsule_number": 16,
+    "topic": "Les accents",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Accents_aigu_exercices_vj206sC.pdf",
+    "order": 16
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 159,
+  "fields": {
+    "title": "Accents cedille exercices",
+    "capsule_number": 16,
+    "topic": "Les accents",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Accents_cedille_exercices_EUZPrsZ.pdf",
+    "order": 16
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 160,
+  "fields": {
+    "title": "Accents cedille théorie",
+    "capsule_number": 16,
+    "topic": "Les accents",
+    "category": "orthographe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Accents_cedille_théorie_bBEZdgF.pdf",
+    "order": 16
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 161,
+  "fields": {
+    "title": "Accents circonflexe exercices",
+    "capsule_number": 16,
+    "topic": "Les accents",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Accents_circonflexe_exercices_OLkoyYf.pdf",
+    "order": 16
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 162,
+  "fields": {
+    "title": "Accents circonflexe théorie",
+    "capsule_number": 16,
+    "topic": "Les accents",
+    "category": "orthographe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Accents_circonflexe_théorie_o4IRKx9.pdf",
+    "order": 16
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 163,
+  "fields": {
+    "title": "Accents grave exercices",
+    "capsule_number": 16,
+    "topic": "Les accents",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Accents_grave_exercices_UYjcIqh.pdf",
+    "order": 16
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 164,
+  "fields": {
+    "title": "Accents theorie",
+    "capsule_number": 16,
+    "topic": "Les accents",
+    "category": "orthographe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Accents_theorie_gzJXUOx.pdf",
+    "order": 16
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 165,
+  "fields": {
+    "title": "Accord part passé Exercices",
+    "capsule_number": 9,
+    "topic": "Participe passé",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Accord_part_passé_Exercices_UnsUYIL.pdf",
+    "order": 9
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 166,
+  "fields": {
+    "title": "Accord part passé Exercices Corrigé",
+    "capsule_number": 9,
+    "topic": "Participe passé",
+    "category": "orthographe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Accord_part_passé_Exercices_Corrigé_SWkokK5.pdf",
+    "order": 9
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 167,
+  "fields": {
+    "title": "Accord part passé Théorie",
+    "capsule_number": 9,
+    "topic": "Participe passé",
+    "category": "orthographe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Accord_part_passé_Théorie_GCvih78.pdf",
+    "order": 9
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 168,
+  "fields": {
+    "title": "Accord verbe exercices",
+    "capsule_number": 2,
+    "topic": "Accord du verbe",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Accord_verbe_exercices_oVrjP3r.pdf",
+    "order": 2
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 169,
+  "fields": {
+    "title": "Adverbes exercices1",
+    "capsule_number": 13,
+    "topic": "Les adverbes",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Adverbes_exercices1_Xug2stE.pdf",
+    "order": 13
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 170,
+  "fields": {
+    "title": "Adverbes exercices1 Corrigé",
+    "capsule_number": 13,
+    "topic": "Les adverbes",
+    "category": "orthographe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Adverbes_exercices1_Corrigé_noX3Chp.pdf",
+    "order": 13
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 171,
+  "fields": {
+    "title": "Adverbes exercices2",
+    "capsule_number": 13,
+    "topic": "Les adverbes",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Adverbes_exercices2_WYT928A.pdf",
+    "order": 13
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 172,
+  "fields": {
+    "title": "Adverbes exercices2 Corrigé",
+    "capsule_number": 13,
+    "topic": "Les adverbes",
+    "category": "orthographe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Adverbes_exercices2_Corrigé_L3t3ceA.pdf",
+    "order": 13
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 173,
+  "fields": {
+    "title": "Adverbes exercices3",
+    "capsule_number": 13,
+    "topic": "Les adverbes",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Adverbes_exercices3_LufxJv3.pdf",
+    "order": 13
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 174,
+  "fields": {
+    "title": "Adverbes exercices3 Corrigé",
+    "capsule_number": 13,
+    "topic": "Les adverbes",
+    "category": "orthographe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Adverbes_exercices3_Corrigé_VByCZX4.pdf",
+    "order": 13
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 175,
+  "fields": {
+    "title": "Adverbes théorie",
+    "capsule_number": 13,
+    "topic": "Les adverbes",
+    "category": "orthographe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Adverbes_théorie_fo7Mv21.pdf",
+    "order": 13
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 176,
+  "fields": {
+    "title": "Algorithme participe passé ",
+    "capsule_number": 11,
+    "topic": "Participe passé avec être",
+    "category": "orthographe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Algorithme_participe_passé__1bYRuP8.pdf",
+    "order": 11
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 177,
+  "fields": {
+    "title": "Capsule 10 PPT",
+    "capsule_number": 10,
+    "topic": "Participe passé avec avoir",
+    "category": "orthographe",
+    "material_type": "capsule",
+    "pdf_file": "resources/resources/Capsule_10_PPT_V7BGnfq.pdf",
+    "order": 10
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 178,
+  "fields": {
+    "title": "Capsule 11A PPT",
+    "capsule_number": 11,
+    "topic": "Participe passé avec être",
+    "category": "orthographe",
+    "material_type": "capsule",
+    "pdf_file": "resources/resources/Capsule_11A_PPT_boENYjL.pdf",
+    "order": 11
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 179,
+  "fields": {
+    "title": "Capsule 11B PPT",
+    "capsule_number": 11,
+    "topic": "Participe passé avec être",
+    "category": "orthographe",
+    "material_type": "capsule",
+    "pdf_file": "resources/resources/Capsule_11B_PPT_2nSQYrN.pdf",
+    "order": 11
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 180,
+  "fields": {
+    "title": "Capsule 12 PPT",
+    "capsule_number": 12,
+    "topic": "Participe présent / adjectif verbal",
+    "category": "orthographe",
+    "material_type": "capsule",
+    "pdf_file": "resources/resources/Capsule_12_PPT_sXk0Pyv.pdf",
+    "order": 12
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 181,
+  "fields": {
+    "title": "Capsule 13 PPT",
+    "capsule_number": 13,
+    "topic": "Les adverbes",
+    "category": "orthographe",
+    "material_type": "capsule",
+    "pdf_file": "resources/resources/Capsule_13_PPT_iKbKHxY.pdf",
+    "order": 13
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 182,
+  "fields": {
+    "title": "Capsule 14 PPT",
+    "capsule_number": 14,
+    "topic": "Les pronoms relatifs",
+    "category": "syntaxe",
+    "material_type": "capsule",
+    "pdf_file": "resources/resources/Capsule_14_PPT_PAWi2jo.pdf",
+    "order": 14
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 183,
+  "fields": {
+    "title": "Capsule 15 PPT",
+    "capsule_number": 15,
+    "topic": "Les pronoms (difficultés)",
+    "category": "syntaxe",
+    "material_type": "capsule",
+    "pdf_file": "resources/resources/Capsule_15_PPT_TkjKwcT.pdf",
+    "order": 15
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 184,
+  "fields": {
+    "title": "Capsule 16 PPT",
+    "capsule_number": 16,
+    "topic": "Les accents",
+    "category": "orthographe",
+    "material_type": "capsule",
+    "pdf_file": "resources/resources/Capsule_16_PPT_gOMdy4X.pdf",
+    "order": 16
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 185,
+  "fields": {
+    "title": "Capsule 17 PPT",
+    "capsule_number": 17,
+    "topic": "Discours indirect",
+    "category": "syntaxe",
+    "material_type": "capsule",
+    "pdf_file": "resources/resources/Capsule_17_PPT_MqbALZC.pdf",
+    "order": 17
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 186,
+  "fields": {
+    "title": "Capsule 1a PPT",
+    "capsule_number": 1,
+    "topic": "Classes et fonctions grammaticales",
+    "category": "orthographe",
+    "material_type": "capsule",
+    "pdf_file": "resources/resources/Capsule_1a_PPT_5p8SOXC.pdf",
+    "order": 1
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 187,
+  "fields": {
+    "title": "Capsule 1b PPT",
+    "capsule_number": 1,
+    "topic": "Classes et fonctions grammaticales",
+    "category": "orthographe",
+    "material_type": "capsule",
+    "pdf_file": "resources/resources/Capsule_1b_PPT_9Vhe8mt.pdf",
+    "order": 1
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 188,
+  "fields": {
+    "title": "Capsule 20 PPT",
+    "capsule_number": 20,
+    "topic": "La ponctuation",
+    "category": "syntaxe",
+    "material_type": "capsule",
+    "pdf_file": "resources/resources/Capsule_20_PPT_8ftANjU.pdf",
+    "order": 20
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 189,
+  "fields": {
+    "title": "Capsule 3 PPT",
+    "capsule_number": 3,
+    "topic": "Les homophones",
+    "category": "orthographe",
+    "material_type": "capsule",
+    "pdf_file": "resources/resources/Capsule_3_PPT_mjfKNri.pdf",
+    "order": 3
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 190,
+  "fields": {
+    "title": "Capsule 4 PPT",
+    "capsule_number": 4,
+    "topic": "Chaque / chacun",
+    "category": "orthographe",
+    "material_type": "capsule",
+    "pdf_file": "resources/resources/Capsule_4_PPT_dIhRaqE.pdf",
+    "order": 4
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 191,
+  "fields": {
+    "title": "Capsule 5 PPT",
+    "capsule_number": 5,
+    "topic": "Leur",
+    "category": "orthographe",
+    "material_type": "capsule",
+    "pdf_file": "resources/resources/Capsule_5_PPT_wCKG5SD.pdf",
+    "order": 5
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 192,
+  "fields": {
+    "title": "Capsule 6 PPT (1)",
+    "capsule_number": 6,
+    "topic": "Même",
+    "category": "orthographe",
+    "material_type": "capsule",
+    "pdf_file": "resources/resources/Capsule_6_PPT_1_7FxUdZy.pdf",
+    "order": 6
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 193,
+  "fields": {
+    "title": "Capsule 6 PPT",
+    "capsule_number": 6,
+    "topic": "Même",
+    "category": "orthographe",
+    "material_type": "capsule",
+    "pdf_file": "resources/resources/Capsule_6_PPT_lRAhAAk.pdf",
+    "order": 6
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 194,
+  "fields": {
+    "title": "Capsule 7 PPT",
+    "capsule_number": 7,
+    "topic": "Quelque",
+    "category": "orthographe",
+    "material_type": "capsule",
+    "pdf_file": "resources/resources/Capsule_7_PPT_xOebbqv.pdf",
+    "order": 7
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 195,
+  "fields": {
+    "title": "Capsule 8 PPT",
+    "capsule_number": 8,
+    "topic": "Tout",
+    "category": "orthographe",
+    "material_type": "capsule",
+    "pdf_file": "resources/resources/Capsule_8_PPT_pdADJJc.pdf",
+    "order": 8
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 196,
+  "fields": {
+    "title": "Capsule 9 PPT",
+    "capsule_number": 9,
+    "topic": "Participe passé sans auxiliaire",
+    "category": "orthographe",
+    "material_type": "capsule",
+    "pdf_file": "resources/resources/Capsule_9_PPT_uZEI2Wq.pdf",
+    "order": 9
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 197,
+  "fields": {
+    "title": "Chiffres theorie (1)",
+    "capsule_number": 18,
+    "topic": "Les nombres et chiffres",
+    "category": "orthographe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Chiffres_theorie_1_vqgHmhY.pdf",
+    "order": 18
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 198,
+  "fields": {
+    "title": "Chiffres theorie",
+    "capsule_number": 18,
+    "topic": "Les nombres et chiffres",
+    "category": "orthographe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Chiffres_theorie_aFtJubP.pdf",
+    "order": 18
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 199,
+  "fields": {
+    "title": "Corrigé Participe present adjectif verbal ",
+    "capsule_number": 12,
+    "topic": "Participe présent / adjectif verbal",
+    "category": "orthographe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Corrigé_Participe_present_adjectif_verbal__pdW7Xh6.pdf",
+    "order": 12
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 200,
+  "fields": {
+    "title": "Corrigé Tout quelque même tel",
+    "capsule_number": 8,
+    "topic": "Tout / quelque / même / tel",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Corrigé_Tout_quelque_même_tel_GU8fzcf.pdf",
+    "order": 8
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 201,
+  "fields": {
+    "title": "Exercices disc direct indirect corrigé",
+    "capsule_number": 17,
+    "topic": "Discours indirect",
+    "category": "syntaxe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Exercices_disc_direct_indirect_corrigé_qRel6jU.pdf",
+    "order": 17
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 202,
+  "fields": {
+    "title": "Exercices disc direct indirect",
+    "capsule_number": 17,
+    "topic": "Discours indirect",
+    "category": "syntaxe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Exercices_disc_direct_indirect_GDX7Jhz.pdf",
+    "order": 17
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 203,
+  "fields": {
+    "title": "Exercices dont",
+    "capsule_number": 14,
+    "topic": "Les pronoms relatifs",
+    "category": "syntaxe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Exercices_dont_R2ukkF7.pdf",
+    "order": 14
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 204,
+  "fields": {
+    "title": "Exercices dont corrige",
+    "capsule_number": 14,
+    "topic": "Les pronoms relatifs",
+    "category": "syntaxe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Exercices_dont_corrige_YaGiwuY.pdf",
+    "order": 14
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 205,
+  "fields": {
+    "title": "Homophones1",
+    "capsule_number": 3,
+    "topic": "Les homophones",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Homophones1_5BQnZHf.pdf",
+    "order": 3
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 206,
+  "fields": {
+    "title": "Homophones2",
+    "capsule_number": 3,
+    "topic": "Les homophones",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Homophones2_9JWDICv.pdf",
+    "order": 3
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 207,
+  "fields": {
+    "title": "Homophones3",
+    "capsule_number": 3,
+    "topic": "Les homophones",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Homophones3_kC1Zs4V.pdf",
+    "order": 3
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 208,
+  "fields": {
+    "title": "Homophones4",
+    "capsule_number": 3,
+    "topic": "Les homophones",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Homophones4_OpVfBST.pdf",
+    "order": 3
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 209,
+  "fields": {
+    "title": "Homophones5",
+    "capsule_number": 3,
+    "topic": "Les homophones",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Homophones5_gRfmRrX.pdf",
+    "order": 3
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 210,
+  "fields": {
+    "title": "Homophones6",
+    "capsule_number": 3,
+    "topic": "Les homophones",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Homophones6_CnWX2kv.pdf",
+    "order": 3
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 211,
+  "fields": {
+    "title": "Impératif présent",
+    "capsule_number": 21,
+    "topic": "La conjugaison (difficultés)",
+    "category": "orthographe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Impératif_présent_wcjWDK5.pdf",
+    "order": 21
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 212,
+  "fields": {
+    "title": "Les pronoms relatifs corrigé V2",
+    "capsule_number": 14,
+    "topic": "Les pronoms relatifs",
+    "category": "syntaxe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Les_pronoms_relatifs_corrigé_V2_C1Hao5Y.pdf",
+    "order": 14
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 213,
+  "fields": {
+    "title": "Les pronoms relatifs exercices V2",
+    "capsule_number": 14,
+    "topic": "Les pronoms relatifs",
+    "category": "syntaxe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Les_pronoms_relatifs_exercices_V2_Z10qqH0.pdf",
+    "order": 14
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 214,
+  "fields": {
+    "title": "Les pronoms relatifs théorie",
+    "capsule_number": 14,
+    "topic": "Les pronoms relatifs",
+    "category": "syntaxe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Les_pronoms_relatifs_théorie_0RC3gDX.pdf",
+    "order": 14
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 215,
+  "fields": {
+    "title": "Les verbes pronominaux et leur classement corrigé",
+    "capsule_number": 21,
+    "topic": "La conjugaison (difficultés)",
+    "category": "orthographe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Les_verbes_pronominaux_et_leur_classement_corrigé_vYSjnYW.pdf",
+    "order": 21
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 216,
+  "fields": {
+    "title": "Liste de verbes essentiellement pronominaux V2",
+    "capsule_number": 21,
+    "topic": "La conjugaison (difficultés)",
+    "category": "orthographe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Liste_de_verbes_essentiellement_pronominaux_V2_jyNOOFQ.pdf",
+    "order": 21
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 217,
+  "fields": {
+    "title": "Liste verbes pron. sans accord",
+    "capsule_number": 21,
+    "topic": "La conjugaison (difficultés)",
+    "category": "orthographe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Liste_verbes_pron_7ybDNg5._sans_accord.pdf",
+    "order": 21
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 218,
+  "fields": {
+    "title": "Miniguide orthographe rectifiée",
+    "capsule_number": 16,
+    "topic": "Les accents",
+    "category": "orthographe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Miniguide_orthographe_rectifiee_trZleHc.pdf",
+    "order": 16
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 219,
+  "fields": {
+    "title": "Ortho rect aigu grave",
+    "capsule_number": 16,
+    "topic": "Les accents",
+    "category": "orthographe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Ortho_rect_aigu_grave_lPLHlt4.pdf",
+    "order": 16
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 220,
+  "fields": {
+    "title": "Ortho rect circonflexe",
+    "capsule_number": 16,
+    "topic": "Les accents",
+    "category": "orthographe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Ortho_rect_circonflexe_iPo3Xvo.pdf",
+    "order": 16
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 221,
+  "fields": {
+    "title": "Participe present   adjectif verbal exercices",
+    "capsule_number": 12,
+    "topic": "Participe présent / adjectif verbal",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Participe_present___adjectif_verbal_exercices_ila67rv.pdf",
+    "order": 12
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 222,
+  "fields": {
+    "title": "Participe present   adjectif verbal theorie",
+    "capsule_number": 12,
+    "topic": "Participe présent / adjectif verbal",
+    "category": "orthographe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Participe_present___adjectif_verbal_theorie_pfzKbvX.pdf",
+    "order": 12
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 223,
+  "fields": {
+    "title": "Point-virgule",
+    "capsule_number": 20,
+    "topic": "La ponctuation",
+    "category": "syntaxe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Point-virgule_eLbcGfu.pdf",
+    "order": 20
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 224,
+  "fields": {
+    "title": "Pronoms classe",
+    "capsule_number": 15,
+    "topic": "Les pronoms (difficultés)",
+    "category": "syntaxe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Pronoms_classe_VCtz1zr.pdf",
+    "order": 15
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 225,
+  "fields": {
+    "title": "Pronoms exercices1",
+    "capsule_number": 15,
+    "topic": "Les pronoms (difficultés)",
+    "category": "syntaxe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Pronoms_exercices1_Z0IeCjk.pdf",
+    "order": 15
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 226,
+  "fields": {
+    "title": "Pronoms exercices1  Corrigé",
+    "capsule_number": 15,
+    "topic": "Les pronoms (difficultés)",
+    "category": "syntaxe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Pronoms_exercices1__Corrigé_TVSUE0p.pdf",
+    "order": 15
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 227,
+  "fields": {
+    "title": "Pronoms exercices2",
+    "capsule_number": 15,
+    "topic": "Les pronoms (difficultés)",
+    "category": "syntaxe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Pronoms_exercices2_V2OYwvW.pdf",
+    "order": 15
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 228,
+  "fields": {
+    "title": "Pronoms exercices2 Corrigé",
+    "capsule_number": 15,
+    "topic": "Les pronoms (difficultés)",
+    "category": "syntaxe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Pronoms_exercices2_Corrigé_e5bpE1E.pdf",
+    "order": 15
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 229,
+  "fields": {
+    "title": "Pronoms exercices3",
+    "capsule_number": 15,
+    "topic": "Les pronoms (difficultés)",
+    "category": "syntaxe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Pronoms_exercices3_5hYJL61.pdf",
+    "order": 15
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 230,
+  "fields": {
+    "title": "Pronoms exercices3 Corrigé",
+    "capsule_number": 15,
+    "topic": "Les pronoms (difficultés)",
+    "category": "syntaxe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Pronoms_exercices3_Corrigé_ESHJchr.pdf",
+    "order": 15
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 231,
+  "fields": {
+    "title": "Pronoms exercices4",
+    "capsule_number": 15,
+    "topic": "Les pronoms (difficultés)",
+    "category": "syntaxe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Pronoms_exercices4_iRXczAA.pdf",
+    "order": 15
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 232,
+  "fields": {
+    "title": "Pronoms exercices4 Corrigé",
+    "capsule_number": 15,
+    "topic": "Les pronoms (difficultés)",
+    "category": "syntaxe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Pronoms_exercices4_Corrigé_OJ9daeR.pdf",
+    "order": 15
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 233,
+  "fields": {
+    "title": "Pronoms exercices5",
+    "capsule_number": 15,
+    "topic": "Les pronoms (difficultés)",
+    "category": "syntaxe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Pronoms_exercices5_CArMSk3.pdf",
+    "order": 15
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 234,
+  "fields": {
+    "title": "Pronoms exercices5 Corrigé",
+    "capsule_number": 15,
+    "topic": "Les pronoms (difficultés)",
+    "category": "syntaxe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Pronoms_exercices5_Corrigé_Sw1GWlk.pdf",
+    "order": 15
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 235,
+  "fields": {
+    "title": "Pronoms exercices6",
+    "capsule_number": 15,
+    "topic": "Les pronoms (difficultés)",
+    "category": "syntaxe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Pronoms_exercices6_o0fYZTe.pdf",
+    "order": 15
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 236,
+  "fields": {
+    "title": "Pronoms exercices6 Corrigé",
+    "capsule_number": 15,
+    "topic": "Les pronoms (difficultés)",
+    "category": "syntaxe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Pronoms_exercices6_Corrigé_lKBiG8d.pdf",
+    "order": 15
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 237,
+  "fields": {
+    "title": "Pronoms exercices7",
+    "capsule_number": 15,
+    "topic": "Les pronoms (difficultés)",
+    "category": "syntaxe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Pronoms_exercices7_0OD5EeI.pdf",
+    "order": 15
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 238,
+  "fields": {
+    "title": "Pronoms exercices7 Corrigé",
+    "capsule_number": 15,
+    "topic": "Les pronoms (difficultés)",
+    "category": "syntaxe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Pronoms_exercices7_Corrigé_eTgddrF.pdf",
+    "order": 15
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 239,
+  "fields": {
+    "title": "Pronoms théorie",
+    "capsule_number": 15,
+    "topic": "Les pronoms (difficultés)",
+    "category": "syntaxe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Pronoms_théorie_Hwg9v6T.pdf",
+    "order": 15
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 240,
+  "fields": {
+    "title": "Questions examen N°capsule 1 pdf",
+    "capsule_number": null,
+    "topic": "Correspondance questions-capsules",
+    "category": "orthographe",
+    "material_type": "autre",
+    "pdf_file": "resources/resources/Questions_examen_Ncapsule_1_pdf_s7CzYeo.pdf",
+    "order": 99
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 241,
+  "fields": {
+    "title": "Questions examen N°capsule pdf",
+    "capsule_number": null,
+    "topic": "Correspondance questions-capsules",
+    "category": "orthographe",
+    "material_type": "autre",
+    "pdf_file": "resources/resources/Questions_examen_Ncapsule_pdf_yXy4WUf.pdf",
+    "order": 99
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 242,
+  "fields": {
+    "title": "Ruptures syntaxiques ",
+    "capsule_number": 19,
+    "topic": "Les ruptures syntaxiques",
+    "category": "syntaxe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Ruptures_syntaxiques__hzf8oFZ.pdf",
+    "order": 19
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 243,
+  "fields": {
+    "title": "Ruptures syntaxiques exercices2",
+    "capsule_number": 19,
+    "topic": "Les ruptures syntaxiques",
+    "category": "syntaxe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Ruptures_syntaxiques_exercices2_kJzi6qh.pdf",
+    "order": 19
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 244,
+  "fields": {
+    "title": "Ruptures syntaxiques exercices2 Corrigé",
+    "capsule_number": 19,
+    "topic": "Les ruptures syntaxiques",
+    "category": "syntaxe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Ruptures_syntaxiques_exercices2_Corrigé_1SUbIF5.pdf",
+    "order": 19
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 245,
+  "fields": {
+    "title": "Ruptures syntaxiques exercice3 corrigé",
+    "capsule_number": 19,
+    "topic": "Les ruptures syntaxiques",
+    "category": "syntaxe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Ruptures_syntaxiques_exercice3_corrigé_nIRXhUD.pdf",
+    "order": 19
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 246,
+  "fields": {
+    "title": "Ruptures syntaxiques exercices3",
+    "capsule_number": 19,
+    "topic": "Les ruptures syntaxiques",
+    "category": "syntaxe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Ruptures_syntaxiques_exercices3_Kwx6pn4.pdf",
+    "order": 19
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 247,
+  "fields": {
+    "title": "Ruptures-exercices1",
+    "capsule_number": 19,
+    "topic": "Les ruptures syntaxiques",
+    "category": "syntaxe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Ruptures-exercices1_jR1SuQz.pdf",
+    "order": 19
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 248,
+  "fields": {
+    "title": "Ruptures-exercices1 Corrigé",
+    "capsule_number": 19,
+    "topic": "Les ruptures syntaxiques",
+    "category": "syntaxe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Ruptures-exercices1_Corrigé_g5afTLi.pdf",
+    "order": 19
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 249,
+  "fields": {
+    "title": "Série A (1)",
+    "capsule_number": null,
+    "topic": "Exercices généraux",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Série_A_1_zWde55q.pdf",
+    "order": 99
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 250,
+  "fields": {
+    "title": "Série A",
+    "capsule_number": null,
+    "topic": "Exercices généraux",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Série_A_I1T8srM.pdf",
+    "order": 99
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 251,
+  "fields": {
+    "title": "Série B",
+    "capsule_number": null,
+    "topic": "Exercices généraux",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Série_B_mqsJQix.pdf",
+    "order": 99
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 252,
+  "fields": {
+    "title": "Théorie disc direct indirect",
+    "capsule_number": 17,
+    "topic": "Discours indirect",
+    "category": "syntaxe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Théorie_disc_direct_indirect_dIsKTyt.pdf",
+    "order": 17
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 253,
+  "fields": {
+    "title": "Théorie dont",
+    "capsule_number": 14,
+    "topic": "Les pronoms relatifs",
+    "category": "syntaxe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Théorie_dont_Xtehz0Q.pdf",
+    "order": 14
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 254,
+  "fields": {
+    "title": "Tout meme autre exercices",
+    "capsule_number": 8,
+    "topic": "Tout / quelque / même / tel",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Tout_meme_autre_exercices_Q40OBWq.pdf",
+    "order": 8
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 255,
+  "fields": {
+    "title": "Tout quelque même tel ",
+    "capsule_number": 8,
+    "topic": "Tout / quelque / même / tel",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Tout_quelque_même_tel__q0232Gc.pdf",
+    "order": 8
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 256,
+  "fields": {
+    "title": "Verbes -cer-ger",
+    "capsule_number": 21,
+    "topic": "La conjugaison (difficultés)",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Verbes_-cer-ger_xc8K08A.pdf",
+    "order": 21
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 257,
+  "fields": {
+    "title": "Verbes -eler-eter",
+    "capsule_number": 21,
+    "topic": "La conjugaison (difficultés)",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Verbes_-eler-eter_gVJpOE4.pdf",
+    "order": 21
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 258,
+  "fields": {
+    "title": "Verbes -ir-dre-tre",
+    "capsule_number": 21,
+    "topic": "La conjugaison (difficultés)",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Verbes_-ir-dre-tre_mKJVSuB.pdf",
+    "order": 21
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 259,
+  "fields": {
+    "title": "Verbes -oyer-uyer-ayer",
+    "capsule_number": 21,
+    "topic": "La conjugaison (difficultés)",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Verbes_-oyer-uyer-ayer_DUoq3Wi.pdf",
+    "order": 21
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 260,
+  "fields": {
+    "title": "Verbes -re2",
+    "capsule_number": 21,
+    "topic": "La conjugaison (difficultés)",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Verbes_-re2_l8nFVFL.pdf",
+    "order": 21
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 261,
+  "fields": {
+    "title": "Verbes impératif",
+    "capsule_number": 21,
+    "topic": "La conjugaison (difficultés)",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Verbes_impératif_hCzk5fr.pdf",
+    "order": 21
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 262,
+  "fields": {
+    "title": "Verbes impératif Corrigé",
+    "capsule_number": 21,
+    "topic": "La conjugaison (difficultés)",
+    "category": "orthographe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Verbes_impératif_Corrigé_VX3WcXG.pdf",
+    "order": 21
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 263,
+  "fields": {
+    "title": "Verbes-er",
+    "capsule_number": 21,
+    "topic": "La conjugaison (difficultés)",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Verbes-er_fMXb2Da.pdf",
+    "order": 21
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 264,
+  "fields": {
+    "title": "Verbes-er2",
+    "capsule_number": 21,
+    "topic": "La conjugaison (difficultés)",
+    "category": "orthographe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Verbes-er2_srWmcpT.pdf",
+    "order": 21
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 265,
+  "fields": {
+    "title": "Virgule exercice",
+    "capsule_number": 20,
+    "topic": "La ponctuation",
+    "category": "syntaxe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Virgule_exercice_eYNBzUf.pdf",
+    "order": 20
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 266,
+  "fields": {
+    "title": "Virgule exercice2",
+    "capsule_number": 20,
+    "topic": "La ponctuation",
+    "category": "syntaxe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Virgule_exercice2_NxE9qp1.pdf",
+    "order": 20
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 267,
+  "fields": {
+    "title": "Virgule exercice2 Corrigé",
+    "capsule_number": 20,
+    "topic": "La ponctuation",
+    "category": "syntaxe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Virgule_exercice2_Corrigé_WIjW8fE.pdf",
+    "order": 20
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 268,
+  "fields": {
+    "title": "Virgule exercice3",
+    "capsule_number": 20,
+    "topic": "La ponctuation",
+    "category": "syntaxe",
+    "material_type": "exercice",
+    "pdf_file": "resources/resources/Virgule_exercice3_l3rPK53.pdf",
+    "order": 20
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 269,
+  "fields": {
+    "title": "Virgule exercice3 Corrigé (1)",
+    "capsule_number": 20,
+    "topic": "La ponctuation",
+    "category": "syntaxe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Virgule_exercice3_Corrigé_1_yU6n2lE.pdf",
+    "order": 20
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 270,
+  "fields": {
+    "title": "Virgule exercice3 Corrigé",
+    "capsule_number": 20,
+    "topic": "La ponctuation",
+    "category": "syntaxe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Virgule_exercice3_Corrigé_MPEz0jG.pdf",
+    "order": 20
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 271,
+  "fields": {
+    "title": "Virgule exercice Corrigé",
+    "capsule_number": 20,
+    "topic": "La ponctuation",
+    "category": "syntaxe",
+    "material_type": "corrige",
+    "pdf_file": "resources/resources/Virgule_exercice_Corrigé_rUW3VtF.pdf",
+    "order": 20
+  }
+},
+{
+  "model": "quiz.resource",
+  "pk": 272,
+  "fields": {
+    "title": "Virgule",
+    "capsule_number": 20,
+    "topic": "La ponctuation",
+    "category": "syntaxe",
+    "material_type": "theorie",
+    "pdf_file": "resources/resources/Virgule_p4Cp2wJ.pdf",
+    "order": 20
+  }
+}
+]

@@ -109,7 +109,16 @@
       <div class="card-body">
         <h5 class="card-title">Commencer l'entraînement</h5>
         <form method="get" action="{% url 'quiz:practice' %}" class="row g-2 align-items-end">
-          <div class="col-12 col-sm-4">
+          <div class="col-6 col-sm">
+            <label class="form-label" for="id_source">Source</label>
+            <select name="source" id="id_source" class="form-select">
+              <option value="">Toutes</option>
+              <option value="exam">Examens</option>
+              <option value="serie">Séries</option>
+              <option value="capsule">Capsules</option>
+            </select>
+          </div>
+          <div class="col-6 col-sm">
             <label class="form-label" for="id_category">Catégorie</label>
             <select name="category" id="id_category" class="form-select">
               <option value="">Toutes</option>
@@ -118,16 +127,28 @@
               <option value="vocabulaire">Vocabulaire</option>
             </select>
           </div>
-          <div class="col-12 col-sm-4">
-            <label class="form-label" for="id_exam">Exemple</label>
+          <div class="col-6 col-sm">
+            <label class="form-label" for="id_exam">Exemple / Série</label>
             <select name="exam" id="id_exam" class="form-select">
               <option value="">Tous</option>
               {% for e in exams %}
               <option value="{{ e.number }}">Exemple {{ e.number }}</option>
               {% endfor %}
+              {% for s in series %}
+              <option value="{{ s.number }}">{{ s.label }}</option>
+              {% endfor %}
             </select>
           </div>
-          <div class="col-12 col-sm-4">
+          <div class="col-6 col-sm">
+            <label class="form-label" for="id_topic">Capsule</label>
+            <select name="topic" id="id_topic" class="form-select">
+              <option value="">Toutes</option>
+              {% for t in capsule_topics %}
+              <option value="{{ t.name }}">{{ t.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-12 col-sm">
             <button type="submit" class="btn btn-primary w-100 btn-lg">
               Commencer &rarr;
             </button>
@@ -183,19 +204,116 @@
         <h5 class="card-title">Par exemple</h5>
         {% for e in exams %}
         <div class="mb-3">
-          <div class="d-flex justify-content-between">
+          <div class="d-flex justify-content-between align-items-center">
             <strong>Exemple {{ e.number }}</strong>
-            <span class="text-muted small">{{ e.seen }}/{{ e.total }}</span>
+            <div class="d-flex align-items-center gap-2">
+              <span class="text-muted small">{{ e.seen }}/{{ e.total }}</span>
+              <a href="{% url 'quiz:practice' %}?exam={{ e.number }}&source=exam"
+                 class="btn btn-outline-primary btn-sm py-0 px-2">
+                S'entraîner
+              </a>
+              {% if e.weak > 0 %}
+              <a href="{% url 'quiz:practice' %}?exam={{ e.number }}&source=exam&strength=weak"
+                 class="btn btn-outline-danger btn-sm py-0 px-2">
+                Réviser ({{ e.weak }})
+              </a>
+              {% endif %}
+            </div>
           </div>
-          <div class="progress" style="height: 12px;">
-            {% widthratio e.seen e.total 100 as ev %}
-            <div class="progress-bar bg-info" style="width:{{ ev }}%"></div>
+          <div class="progress mt-1" style="height: 12px;">
+            {% widthratio e.strong e.total 100 as es %}
+            {% widthratio e.medium e.total 100 as em %}
+            {% widthratio e.weak e.total 100 as ew %}
+            <div class="progress-bar bg-success" style="width:{{ es }}%"></div>
+            <div class="progress-bar bg-warning" style="width:{{ em }}%"></div>
+            <div class="progress-bar bg-danger" style="width:{{ ew }}%"></div>
           </div>
         </div>
         {% endfor %}
       </div>
     </div>
   </div>
+
+  <!-- Serie breakdown -->
+  {% if series %}
+  <div class="col-12 col-md-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title">Par série</h5>
+        {% for s in series %}
+        <div class="mb-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <strong>{{ s.label }}</strong>
+            <div class="d-flex align-items-center gap-2">
+              <span class="text-muted small">{{ s.seen }}/{{ s.total }}</span>
+              <a href="{% url 'quiz:practice' %}?exam={{ s.number }}&source=serie"
+                 class="btn btn-outline-primary btn-sm py-0 px-2">
+                S'entraîner
+              </a>
+              {% if s.weak > 0 %}
+              <a href="{% url 'quiz:practice' %}?exam={{ s.number }}&source=serie&strength=weak"
+                 class="btn btn-outline-danger btn-sm py-0 px-2">
+                Réviser ({{ s.weak }})
+              </a>
+              {% endif %}
+            </div>
+          </div>
+          <div class="progress mt-1" style="height: 12px;">
+            {% widthratio s.strong s.total 100 as ss %}
+            {% widthratio s.medium s.total 100 as sm %}
+            {% widthratio s.weak s.total 100 as sw %}
+            <div class="progress-bar bg-success" style="width:{{ ss }}%"></div>
+            <div class="progress-bar bg-warning" style="width:{{ sm }}%"></div>
+            <div class="progress-bar bg-danger" style="width:{{ sw }}%"></div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Capsule topics breakdown -->
+  {% if capsule_topics %}
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Par capsule</h5>
+        {% for t in capsule_topics %}
+        <div class="mb-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <strong class="small">{{ t.name }}</strong>
+            <div class="d-flex align-items-center gap-2">
+              <span class="text-muted small">{{ t.seen }}/{{ t.total }}</span>
+              <a href="{% url 'quiz:practice' %}?topic={{ t.name }}"
+                 class="btn btn-outline-primary btn-sm py-0 px-2"
+                 title="S'entraîner sur {{ t.name }}">
+                S'entraîner
+              </a>
+              {% if t.weak > 0 %}
+              <a href="{% url 'quiz:practice' %}?topic={{ t.name }}&strength=weak"
+                 class="btn btn-outline-danger btn-sm py-0 px-2">
+                Réviser ({{ t.weak }})
+              </a>
+              {% endif %}
+            </div>
+          </div>
+          <div class="progress mt-1" style="height: 12px;">
+            {% if t.total > 0 %}
+            {% widthratio t.strong t.total 100 as ts %}
+            {% widthratio t.medium t.total 100 as tm %}
+            {% widthratio t.weak t.total 100 as tw %}
+            <div class="progress-bar bg-success" style="width:{{ ts }}%"></div>
+            <div class="progress-bar bg-warning" style="width:{{ tm }}%"></div>
+            <div class="progress-bar bg-danger" style="width:{{ tw }}%"></div>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
 
   <!-- Reset -->
   <div class="col-12 text-center mb-4">

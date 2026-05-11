@@ -78,6 +78,9 @@
               <a class="nav-link" href="{% url 'quiz:practice' %}">S'entraîner</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="{% url 'quiz:resources' %}">Ressources</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="{% url 'quiz:upload' %}">Importer</a>
             </li>
             {% if request.user.is_authenticated %}

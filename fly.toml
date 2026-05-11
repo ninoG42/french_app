@@ -4,7 +4,7 @@ primary_region = "cdg"
 [build]
 
 [deploy]
-  release_command = "sh -c 'python manage.py migrate --noinput && python manage.py load_questions'"
+  release_command = "sh -c 'python manage.py migrate --noinput && python manage.py load_questions && python manage.py loaddata french_test_app/fixtures/resources.json'"
 
 [env]
   DJANGO_SETTINGS_MODULE = "config.settings.production"

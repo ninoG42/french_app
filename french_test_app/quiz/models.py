@@ -8,6 +8,13 @@ class Question(models.Model):
         SYNTAXE = "syntaxe", "Syntaxe"
         VOCABULAIRE = "vocabulaire", "Vocabulaire"
 
+    class Source(models.TextChoices):
+        EXAM = "exam", "Examen"
+        CAPSULE = "capsule", "Capsule"
+        SERIE = "serie", "Série"
+
+    source = models.CharField(max_length=10, choices=Source.choices, default=Source.EXAM)
+    capsule_topic = models.CharField(max_length=100, blank=True, default="")
     exam_number = models.PositiveSmallIntegerField(help_text="Exam example number (1-6)")
     question_number = models.PositiveSmallIntegerField(help_text="Question number within the exam (1-60)")
     category = models.CharField(max_length=20, choices=Category.choices)
@@ -92,3 +99,36 @@ class UserQuestionProgress(models.Model):
         else:
             self.strength = self.Strength.WEAK
         self.save(update_fields=["strength"])
+
+
+class Resource(models.Model):
+    class MaterialType(models.TextChoices):
+        CAPSULE = "capsule", "Capsule"
+        THEORY = "theorie", "Théorie"
+        EXERCISE = "exercice", "Exercice"
+        CORRIGE = "corrige", "Corrigé"
+        MISE_EN_SITUATION = "mise_en_situation", "Mise en situation"
+        OTHER = "autre", "Autre"
+
+    title = models.CharField(max_length=200)
+    capsule_number = models.PositiveSmallIntegerField(null=True, blank=True)
+    topic = models.CharField(max_length=100)
+    category = models.CharField(
+        max_length=20,
+        choices=Question.Category.choices,
+        default=Question.Category.ORTHOGRAPHE,
+    )
+    material_type = models.CharField(
+        max_length=20,
+        choices=MaterialType.choices,
+        default=MaterialType.OTHER,
+    )
+    pdf_file = models.FileField(upload_to="resources/")
+    order = models.PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        ordering = ["category", "order", "capsule_number", "material_type"]
+
+    def __str__(self):
+        prefix = f"Capsule {self.capsule_number} - " if self.capsule_number else ""
+        return f"{prefix}{self.title}"
