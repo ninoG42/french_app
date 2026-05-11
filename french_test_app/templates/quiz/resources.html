@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Ressources — OP001{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-3">
+  <div class="col-12 col-lg-10">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="mb-0">Ressources grammaticales</h4>
+      <span class="badge bg-secondary">{{ total_resources }} documents</span>
+    </div>
+
+    <p class="text-muted small mb-4">
+      Capsules, théorie, exercices et corrigés organisés par catégorie d'examen.
+      Cliquez sur un thème pour voir les documents disponibles.
+    </p>
+
+    {% for section in sections %}
+    {% if section.topics %}
+    <div class="card mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center
+        {% if section.value == 'orthographe' %}bg-info bg-opacity-10
+        {% elif section.value == 'syntaxe' %}bg-purple bg-opacity-10
+        {% else %}bg-dark bg-opacity-10{% endif %}">
+        <h5 class="mb-0">{{ section.label }}</h5>
+        <span class="badge
+          {% if section.value == 'orthographe' %}bg-info
+          {% elif section.value == 'syntaxe' %}bg-purple
+          {% else %}bg-dark{% endif %}">
+          {{ section.total }} docs
+        </span>
+      </div>
+      <div class="card-body p-0">
+        <div class="accordion accordion-flush" id="accordion-{{ section.value }}">
+          {% for topic in section.topics %}
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed py-2 px-3" type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#topic-{{ section.value }}-{{ forloop.counter }}">
+                <span class="me-2">
+                  {% if topic.capsule_number %}
+                  <span class="badge bg-secondary me-1">C{{ topic.capsule_number }}</span>
+                  {% endif %}
+                  <strong>{{ topic.name }}</strong>
+                </span>
+                {% if topic.has_questions %}
+                <span class="badge bg-primary ms-auto me-1">{{ topic.question_count }} QCM</span>
+                {% endif %}
+                <span class="badge bg-light text-dark me-2">{{ topic.count }} docs</span>
+              </button>
+            </h2>
+            <div id="topic-{{ section.value }}-{{ forloop.counter }}"
+                 class="accordion-collapse collapse"
+                 data-bs-parent="#accordion-{{ section.value }}">
+              <div class="accordion-body py-2 px-3">
+                {% if topic.has_questions %}
+                <div class="mb-2">
+                  <a href="{% url 'quiz:practice' %}?topic={{ topic.name }}"
+                     class="btn btn-primary btn-sm w-100">
+                    S'entraîner sur ce thème ({{ topic.question_count }} questions)
+                  </a>
+                </div>
+                {% endif %}
+                <div class="list-group list-group-flush">
+                  {% for res in topic.resources %}
+                  <a href="{{ res.pdf_file.url }}" target="_blank"
+                     class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-2 px-0 border-0">
+                    <span>
+                      {% if res.material_type == "capsule" %}
+                        <span class="badge bg-primary me-1">Capsule</span>
+                      {% elif res.material_type == "theorie" %}
+                        <span class="badge bg-success me-1">Théorie</span>
+                      {% elif res.material_type == "exercice" %}
+                        <span class="badge bg-warning text-dark me-1">Exercice</span>
+                      {% elif res.material_type == "corrige" %}
+                        <span class="badge bg-danger me-1">Corrigé</span>
+                      {% elif res.material_type == "mise_en_situation" %}
+                        <span class="badge bg-info me-1">Mise en situation</span>
+                      {% else %}
+                        <span class="badge bg-secondary me-1">Autre</span>
+                      {% endif %}
+                      {{ res.title }}
+                    </span>
+                    <span class="text-muted small">PDF &rarr;</span>
+                  </a>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+  </div>
+</div>
+{% endblock %}

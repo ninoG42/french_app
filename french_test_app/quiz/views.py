@@ -13,26 +13,30 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 
-from .models import AnswerLog, Question, UserQuestionProgress
+from .models import AnswerLog, Question, Resource, UserQuestionProgress
 
 logger = logging.getLogger(__name__)
 
 
 def _get_filter_params(request):
-    """Extract category, exam_number, and strength filters from GET params."""
+    """Extract category, exam_number, strength, topic, and source filters from GET params."""
     category = request.GET.get("category", "")
     exam_number = request.GET.get("exam", "")
     strength = request.GET.get("strength", "")
+    topic = request.GET.get("topic", "")
+    source = request.GET.get("source", "")
     try:
         exam_number = int(exam_number)
     except (ValueError, TypeError):
         exam_number = None
     if strength not in ("weak", "medium", "strong"):
         strength = ""
-    return category, exam_number, strength
+    if source not in ("exam", "serie", "capsule"):
+        source = ""
+    return category, exam_number, strength, topic, source
 
 
-def _build_filter_qs(category="", exam_number=None, strength=""):
+def _build_filter_qs(category="", exam_number=None, strength="", topic="", source=""):
     """Build a query string from filter params."""
     parts = []
     if category:
@@ -41,20 +45,28 @@ def _build_filter_qs(category="", exam_number=None, strength=""):
         parts.append(f"exam={exam_number}")
     if strength:
         parts.append(f"strength={strength}")
+    if topic:
+        parts.append(f"topic={topic}")
+    if source:
+        parts.append(f"source={source}")
     return "?" + "&".join(parts) if parts else ""
 
 
-def _filtered_questions(category, exam_number):
-    """Return a base queryset filtered by category/exam."""
+def _filtered_questions(category, exam_number, topic="", source=""):
+    """Return a base queryset filtered by category/exam/topic/source."""
     qs = Question.objects.all()
+    if source and source in dict(Question.Source.choices):
+        qs = qs.filter(source=source)
+    if topic:
+        qs = qs.filter(capsule_topic=topic)
     if category and category in dict(Question.Category.choices):
         qs = qs.filter(category=category)
-    if exam_number and 1 <= exam_number <= 6:
+    if exam_number:
         qs = qs.filter(exam_number=exam_number)
     return qs
 
 
-def select_next_question(user, category=None, exam_number=None, strength_filter=None):
+def select_next_question(user, category=None, exam_number=None, strength_filter=None, topic=None, source=None):
     """
     Priority-based question selection algorithm.
 
@@ -68,7 +80,7 @@ def select_next_question(user, category=None, exam_number=None, strength_filter=
     4. Medium questions (50% <= correct_rate < 80%)
     5. Strong questions (occasional review)
     """
-    base_qs = _filtered_questions(category, exam_number)
+    base_qs = _filtered_questions(category, exam_number, topic or "", source or "")
     all_ids = set(base_qs.values_list("id", flat=True))
 
     if not all_ids:
@@ -168,20 +180,90 @@ def dashboard(request):
             "pct_complete": int(cat_seen / cat_total * 100) if cat_total else 0,
         })
 
-    # Exam breakdown
+    # Exam breakdown (source=exam only)
     exams = []
-    for exam_num in range(1, 7):
-        exam_qs = Question.objects.filter(exam_number=exam_num)
+    exam_numbers = (
+        Question.objects.filter(source=Question.Source.EXAM)
+        .values_list("exam_number", flat=True)
+        .distinct()
+        .order_by("exam_number")
+    )
+    for exam_num in exam_numbers:
+        exam_qs = Question.objects.filter(exam_number=exam_num, source=Question.Source.EXAM)
         exam_total = exam_qs.count()
-        exam_progress = UserQuestionProgress.objects.filter(user=user, question__exam_number=exam_num)
+        exam_progress = UserQuestionProgress.objects.filter(
+            user=user, question__exam_number=exam_num, question__source=Question.Source.EXAM,
+        )
         exam_seen = exam_progress.filter(times_shown__gt=0).count()
         exam_strong = exam_progress.filter(strength="strong").count()
+        exam_weak = exam_progress.filter(strength="weak").count()
+        exam_medium = exam_progress.filter(strength="medium").count()
         exams.append({
             "number": exam_num,
             "total": exam_total,
             "seen": exam_seen,
             "strong": exam_strong,
+            "medium": exam_medium,
+            "weak": exam_weak,
             "pct_complete": int(exam_seen / exam_total * 100) if exam_total else 0,
+        })
+
+    # Serie breakdown
+    SERIE_LABELS = {7: "Série A", 8: "Série B"}
+    series = []
+    serie_numbers = (
+        Question.objects.filter(source=Question.Source.SERIE)
+        .values_list("exam_number", flat=True)
+        .distinct()
+        .order_by("exam_number")
+    )
+    for serie_num in serie_numbers:
+        serie_qs = Question.objects.filter(exam_number=serie_num, source=Question.Source.SERIE)
+        serie_total = serie_qs.count()
+        serie_progress = UserQuestionProgress.objects.filter(
+            user=user, question__exam_number=serie_num, question__source=Question.Source.SERIE,
+        )
+        serie_seen = serie_progress.filter(times_shown__gt=0).count()
+        serie_strong = serie_progress.filter(strength="strong").count()
+        serie_weak = serie_progress.filter(strength="weak").count()
+        serie_medium = serie_progress.filter(strength="medium").count()
+        series.append({
+            "number": serie_num,
+            "label": SERIE_LABELS.get(serie_num, f"Série {serie_num}"),
+            "total": serie_total,
+            "seen": serie_seen,
+            "strong": serie_strong,
+            "medium": serie_medium,
+            "weak": serie_weak,
+            "pct_complete": int(serie_seen / serie_total * 100) if serie_total else 0,
+        })
+
+    # Capsule topic breakdown
+    capsule_topics = []
+    topic_names = (
+        Question.objects.filter(source=Question.Source.CAPSULE)
+        .exclude(capsule_topic="")
+        .values_list("capsule_topic", flat=True)
+        .distinct()
+    )
+    for topic_name in sorted(topic_names):
+        topic_qs = Question.objects.filter(capsule_topic=topic_name)
+        topic_total = topic_qs.count()
+        topic_progress = UserQuestionProgress.objects.filter(
+            user=user, question__capsule_topic=topic_name
+        )
+        topic_seen = topic_progress.filter(times_shown__gt=0).count()
+        topic_strong = topic_progress.filter(strength="strong").count()
+        topic_weak = topic_progress.filter(strength="weak").count()
+        topic_medium = topic_progress.filter(strength="medium").count()
+        capsule_topics.append({
+            "name": topic_name,
+            "total": topic_total,
+            "seen": topic_seen,
+            "strong": topic_strong,
+            "medium": topic_medium,
+            "weak": topic_weak,
+            "pct_complete": int(topic_seen / topic_total * 100) if topic_total else 0,
         })
 
     # Questions meeting the 5x threshold
@@ -201,6 +283,8 @@ def dashboard(request):
         "skip_count": skip_count,
         "categories": categories,
         "exams": exams,
+        "series": series,
+        "capsule_topics": capsule_topics,
         "five_plus": five_plus,
         "seen_count": seen_count,
     }
@@ -209,9 +293,12 @@ def dashboard(request):
 
 @login_required
 def practice(request):
-    category, exam_number, strength = _get_filter_params(request)
+    category, exam_number, strength, topic, source = _get_filter_params(request)
     question = select_next_question(
-        request.user, category, exam_number, strength_filter=strength or None,
+        request.user, category, exam_number,
+        strength_filter=strength or None,
+        topic=topic or None,
+        source=source or None,
     )
 
     if question is None:
@@ -222,7 +309,7 @@ def practice(request):
         return redirect("quiz:dashboard")
 
     progress = UserQuestionProgress.objects.filter(user=request.user, question=question).first()
-    filter_qs = _build_filter_qs(category, exam_number, strength)
+    filter_qs = _build_filter_qs(category, exam_number, strength, topic, source)
 
     context = {
         "question": question,
@@ -231,6 +318,8 @@ def practice(request):
         "category": category,
         "exam_number": exam_number,
         "strength": strength,
+        "topic": topic,
+        "source": source,
         "options": [
             ("1", question.option_1),
             ("2", question.option_2),
@@ -276,7 +365,9 @@ def answer(request, question_id):
     category = request.POST.get("category", "")
     exam_number = request.POST.get("exam_number", "")
     strength = request.POST.get("strength", "")
-    filter_qs = _build_filter_qs(category, exam_number, strength)
+    topic = request.POST.get("topic", "")
+    source = request.POST.get("source", "")
+    filter_qs = _build_filter_qs(category, exam_number, strength, topic, source)
 
     return redirect(f"/quiz/feedback/{question.pk}/{filter_qs}")
 
@@ -291,8 +382,8 @@ def feedback(request, question_id):
     )
     progress = UserQuestionProgress.objects.filter(user=request.user, question=question).first()
 
-    category, exam_number, strength = _get_filter_params(request)
-    filter_qs = _build_filter_qs(category, exam_number, strength)
+    category, exam_number, strength, topic, source = _get_filter_params(request)
+    filter_qs = _build_filter_qs(category, exam_number, strength, topic, source)
 
     # Map answer codes to display text
     answer_map = {
@@ -493,3 +584,70 @@ Sois concis mais complet. Utilise un langage clair et accessible."""
             {"error": "Erreur lors de l'appel à l'API Gemini. Réessayez plus tard."},
             status=502,
         )
+
+
+@login_required
+def resources(request):
+    all_resources = Resource.objects.all()
+
+    MATERIAL_ORDER = {
+        "capsule": 0,
+        "mise_en_situation": 1,
+        "theorie": 2,
+        "exercice": 3,
+        "corrige": 4,
+        "autre": 5,
+    }
+
+    topics_with_questions = set(
+        Question.objects.filter(source=Question.Source.CAPSULE)
+        .exclude(capsule_topic="")
+        .values_list("capsule_topic", flat=True)
+        .distinct()
+    )
+
+    category_sections = []
+    for cat_value, cat_label in Question.Category.choices:
+        topics_qs = (
+            all_resources
+            .filter(category=cat_value)
+            .values_list("topic", flat=True)
+            .distinct()
+        )
+        topics = []
+        for topic_name in sorted(topics_qs):
+            topic_resources = list(
+                all_resources.filter(category=cat_value, topic=topic_name)
+            )
+            topic_resources.sort(
+                key=lambda r: (MATERIAL_ORDER.get(r.material_type, 99), r.title)
+            )
+            caps_num = next(
+                (r.capsule_number for r in topic_resources if r.capsule_number),
+                None,
+            )
+            has_questions = topic_name in topics_with_questions
+            question_count = (
+                Question.objects.filter(capsule_topic=topic_name).count()
+                if has_questions else 0
+            )
+            topics.append({
+                "name": topic_name,
+                "capsule_number": caps_num,
+                "resources": topic_resources,
+                "count": len(topic_resources),
+                "has_questions": has_questions,
+                "question_count": question_count,
+            })
+        topics.sort(key=lambda t: (t["capsule_number"] or 99, t["name"]))
+        category_sections.append({
+            "label": cat_label,
+            "value": cat_value,
+            "topics": topics,
+            "total": sum(t["count"] for t in topics),
+        })
+
+    return render(request, "quiz/resources.html", {
+        "sections": category_sections,
+        "total_resources": all_resources.count(),
+    })

@@ -13,10 +13,32 @@
     </div>
     {% endif %}
 
+    {% if source == "serie" %}
+    <div class="alert alert-primary py-2 mb-2 text-center small fw-bold">
+      Mode série
+    </div>
+    {% elif source == "capsule" %}
+    <div class="alert alert-info py-2 mb-2 text-center small fw-bold">
+      Mode capsule
+    </div>
+    {% endif %}
+
+    {% if topic %}
+    <div class="alert alert-info py-2 mb-2 text-center small fw-bold">
+      Entraînement : {{ topic }}
+    </div>
+    {% endif %}
+
     <!-- Question header -->
     <div class="d-flex justify-content-between align-items-center mb-2">
       <span class="badge bg-secondary">
-        Ex. {{ question.exam_number }} — Q{{ question.question_number }}
+        {% if question.source == "capsule" %}
+          Capsule — Q{{ question.question_number }}
+        {% elif question.source == "serie" %}
+          {{ question.get_source_display }} — Q{{ question.question_number }}
+        {% else %}
+          Ex. {{ question.exam_number }} — Q{{ question.question_number }}
+        {% endif %}
       </span>
       <span class="badge
         {% if question.category == 'orthographe' %}bg-info
@@ -69,6 +91,8 @@
       <input type="hidden" name="category" value="{{ category }}">
       <input type="hidden" name="exam_number" value="{{ exam_number|default:'' }}">
       <input type="hidden" name="strength" value="{{ strength }}">
+      <input type="hidden" name="topic" value="{{ topic }}">
+      <input type="hidden" name="source" value="{{ source }}">
 
       <div class="d-grid gap-2 mb-3">
         {% for code, text in options %}

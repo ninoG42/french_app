@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import AnswerLog, Question, UserQuestionProgress
+from .models import AnswerLog, Question, Resource, UserQuestionProgress
 
 
 @admin.register(Question)
@@ -20,3 +20,9 @@ class AnswerLogAdmin(admin.ModelAdmin):
 class UserQuestionProgressAdmin(admin.ModelAdmin):
     list_display = ("user", "question", "times_shown", "times_correct", "strength")
     list_filter = ("strength",)
+
+
+@admin.register(Resource)
+class ResourceAdmin(admin.ModelAdmin):
+    list_display = ("title", "capsule_number", "topic", "category", "material_type")
+    list_filter = ("category", "material_type", "topic")

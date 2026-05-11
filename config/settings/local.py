@@ -74,3 +74,4 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 
 # Google Gemini API
 GEMINI_API_KEY = env("GEMINI_API_KEY", default="")
+
