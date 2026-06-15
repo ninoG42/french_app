@@ -13,7 +13,7 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-  "django>=5.1",
+  "django>=6.0.6",
   "django-environ",
   "django-allauth",
   "django-crispy-forms",
@@ -32,8 +32,8 @@ dev = [
   "django-debug-toolbar",
   "django-extensions",
   "werkzeug",
-  "playwright>=1.59.0",
-  "pytest-playwright>=0.7.2",
+  "playwright>=1.60.0",
+  "pytest-playwright>=0.8.0",
   "factory-boy>=3.3.3",
   "pytest-django>=4.12.0",
 ]
