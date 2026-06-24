@@ -22,7 +22,7 @@ dependencies = [
   "gunicorn",
   "argon2-cffi",
   "pymupdf>=1.27.2.2",
-  "psycopg[binary]>=3.3.3",
+  "psycopg[binary]>=3.3.4",
   "google-genai>=1.74.0",
 ]
 
