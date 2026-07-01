@@ -13,7 +13,7 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-  "django>=5.1",
+  "django>=6.0.6",
   "django-environ",
   "django-allauth",
   "django-crispy-forms",
@@ -21,7 +21,7 @@ dependencies = [
   "whitenoise",
   "gunicorn",
   "argon2-cffi",
-  "pymupdf>=1.27.2.2",
+  "pymupdf>=1.28.0",
   "psycopg[binary]>=3.3.3",
   "google-genai>=1.74.0",
 ]
@@ -32,8 +32,8 @@ dev = [
   "django-debug-toolbar",
   "django-extensions",
   "werkzeug",
-  "playwright>=1.59.0",
-  "pytest-playwright>=0.7.2",
+  "playwright>=1.61.0",
+  "pytest-playwright>=0.8.0",
   "factory-boy>=3.3.3",
   "pytest-django>=4.12.0",
 ]
