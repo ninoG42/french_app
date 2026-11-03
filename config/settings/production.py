@@ -104,6 +104,14 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # Disable email verification so users can sign up without an email server
 ACCOUNT_EMAIL_VERIFICATION = "none"
+# Staging/demo on Fly may enable registration; keep closed for a real prod cutover.
+ACCOUNT_ALLOW_REGISTRATION = env.bool("DJANGO_ACCOUNT_ALLOW_REGISTRATION", default=False)
+
+if DATABASES["default"]["ENGINE"].endswith("sqlite3"):
+    raise RuntimeError("Production requires PostgreSQL. Set DATABASE_URL to a Postgres DSN.")
+
+# MOCK_SSO is allowed on the Fly staging deploy while Microsoft SSO is not wired yet.
+# Set MOCK_SSO=False (and Azure secrets) before treating this as real production.
 
 
 # LOGGING

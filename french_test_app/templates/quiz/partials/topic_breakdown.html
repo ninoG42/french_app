@@ -1,0 +1,165 @@
+{# Shared catégorie / examen / capsule / module bars (student + teacher). #}
+<div class="row g-3">
+  <div class="col-12 col-md-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title">Par catégorie</h5>
+        {% for cat in categories %}
+        <div class="mb-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <strong>{{ cat.name }}</strong>
+            <div class="d-flex align-items-center gap-2">
+              <span class="text-muted small">{{ cat.seen }}/{{ cat.total }}</span>
+              {% if show_practice_actions %}
+              <a href="{% url 'quiz:practice' %}?category={{ cat.value }}"
+                 class="btn btn-outline-primary btn-sm py-0 px-2"
+                 title="S'entraîner uniquement en {{ cat.name }}">
+                S'entraîner
+              </a>
+              {% if cat.weak > 0 %}
+              <a href="{% url 'quiz:practice' %}?category={{ cat.value }}&strength=weak"
+                 class="btn btn-outline-danger btn-sm py-0 px-2"
+                 title="Réviser les questions ratées en {{ cat.name }}">
+                Réviser ({{ cat.weak }})
+              </a>
+              {% endif %}
+              {% endif %}
+            </div>
+          </div>
+          <div class="progress mt-1" style="height: 12px;">
+            {% widthratio cat.strong cat.total 100 as cs %}
+            {% widthratio cat.medium cat.total 100 as cm %}
+            {% widthratio cat.weak cat.total 100 as cw %}
+            <div class="progress-bar bg-success" style="width:{{ cs }}%"></div>
+            <div class="progress-bar bg-warning" style="width:{{ cm }}%"></div>
+            <div class="progress-bar bg-danger" style="width:{{ cw }}%"></div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  {% if series %}
+  <div class="col-12 col-md-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title">Examen</h5>
+        {% for s in series %}
+        <div class="mb-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <strong>{{ s.label }}</strong>
+            <div class="d-flex align-items-center gap-2">
+              <span class="text-muted small">{{ s.seen }}/{{ s.total }}</span>
+              {% if show_practice_actions %}
+              <a href="{% url 'quiz:practice' %}?exam={{ s.number }}&source=serie"
+                 class="btn btn-outline-primary btn-sm py-0 px-2">
+                S'entraîner
+              </a>
+              {% if s.weak > 0 %}
+              <a href="{% url 'quiz:practice' %}?exam={{ s.number }}&source=serie&strength=weak"
+                 class="btn btn-outline-danger btn-sm py-0 px-2">
+                Réviser ({{ s.weak }})
+              </a>
+              {% endif %}
+              {% endif %}
+            </div>
+          </div>
+          <div class="progress mt-1" style="height: 12px;">
+            {% widthratio s.strong s.total 100 as ss %}
+            {% widthratio s.medium s.total 100 as sm %}
+            {% widthratio s.weak s.total 100 as sw %}
+            <div class="progress-bar bg-success" style="width:{{ ss }}%"></div>
+            <div class="progress-bar bg-warning" style="width:{{ sm }}%"></div>
+            <div class="progress-bar bg-danger" style="width:{{ sw }}%"></div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if capsule_topics %}
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Par capsule</h5>
+        {% for t in capsule_topics %}
+        <div class="mb-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <strong class="small">{{ t.name }}</strong>
+            <div class="d-flex align-items-center gap-2">
+              <span class="text-muted small">{{ t.seen }}/{{ t.total }}</span>
+              {% if show_practice_actions %}
+              <a href="{% url 'quiz:practice' %}?topic={{ t.name }}"
+                 class="btn btn-outline-primary btn-sm py-0 px-2"
+                 title="S'entraîner sur {{ t.name }}">
+                S'entraîner
+              </a>
+              {% if t.weak > 0 %}
+              <a href="{% url 'quiz:practice' %}?topic={{ t.name }}&strength=weak"
+                 class="btn btn-outline-danger btn-sm py-0 px-2">
+                Réviser ({{ t.weak }})
+              </a>
+              {% endif %}
+              {% endif %}
+            </div>
+          </div>
+          <div class="progress mt-1" style="height: 12px;">
+            {% if t.total > 0 %}
+            {% widthratio t.strong t.total 100 as ts %}
+            {% widthratio t.medium t.total 100 as tm %}
+            {% widthratio t.weak t.total 100 as tw %}
+            <div class="progress-bar bg-success" style="width:{{ ts }}%"></div>
+            <div class="progress-bar bg-warning" style="width:{{ tm }}%"></div>
+            <div class="progress-bar bg-danger" style="width:{{ tw }}%"></div>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if modules %}
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Par module</h5>
+        {% for m in modules %}
+        <div class="mb-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <strong class="small">{{ m.title }}</strong>
+            <div class="d-flex align-items-center gap-2">
+              <span class="text-muted small">{{ m.seen }}/{{ m.total }}</span>
+              {% if show_practice_actions %}
+              <a href="{% url 'quiz:practice' %}?module={{ m.id }}&source=module"
+                 class="btn btn-outline-primary btn-sm py-0 px-2">
+                S'entraîner
+              </a>
+              {% if m.weak > 0 %}
+              <a href="{% url 'quiz:practice' %}?module={{ m.id }}&source=module&strength=weak"
+                 class="btn btn-outline-danger btn-sm py-0 px-2">
+                Réviser ({{ m.weak }})
+              </a>
+              {% endif %}
+              {% endif %}
+            </div>
+          </div>
+          <div class="progress mt-1" style="height: 12px;">
+            {% if m.total > 0 %}
+            {% widthratio m.strong m.total 100 as ms %}
+            {% widthratio m.weak m.total 100 as mw %}
+            <div class="progress-bar bg-success" style="width:{{ ms }}%"></div>
+            <div class="progress-bar bg-danger" style="width:{{ mw }}%"></div>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>

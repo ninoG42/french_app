@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}{% if creating %}Nouvelle question{% else %}Modifier question{% endif %} — OP001{% endblock %}
+{% block content %}
+<header class="page-heading">
+  <div>
+    <p class="eyebrow">Espace enseignant</p>
+    <h1>{% if creating %}Nouvelle question QCM{% else %}Modifier une question QCM{% endif %}</h1>
+  </div>
+  <a class="btn btn-outline-secondary" href="{% if request.GET.next %}{{ request.GET.next }}{% else %}{% url 'quiz:teacher_question_bank' %}{% endif %}">Retour</a>
+</header>
+
+<section class="panel">
+  <p class="muted small mb-3">
+    Le <strong>numéro de question</strong> ne propose que les numéros encore libres pour l’exemple, la série ou le thème choisi.
+  </p>
+  <form method="post" class="d-grid gap-3" id="question-edit-form">
+    {% csrf_token %}
+    {% if request.GET.next %}
+    <input type="hidden" name="next" value="{{ request.GET.next }}">
+    {% endif %}
+    {{ form|crispy }}
+    <button class="btn btn-primary" type="submit">{% if creating %}Créer{% else %}Enregistrer{% endif %}</button>
+  </form>
+</section>
+<script>
+(function () {
+  var form = document.getElementById("question-edit-form");
+  if (!form) return;
+  function reloadWith(param, value) {
+    var url = new URL(window.location.href);
+    if (value) url.searchParams.set(param, value);
+    else url.searchParams.delete(param);
+    window.location.href = url.toString();
+  }
+  var source = form.querySelector("#id_source");
+  if (source) {
+    source.addEventListener("change", function () {
+      reloadWith("source", source.value);
+    });
+  }
+  // Refresh free question numbers when the ensemble changes.
+  ["#id_exam_number", "#id_capsule_topic"].forEach(function (sel) {
+    var el = form.querySelector(sel);
+    if (!el) return;
+    el.addEventListener("change", function () {
+      var url = new URL(window.location.href);
+      if (source) url.searchParams.set("source", source.value);
+      var exam = form.querySelector("#id_exam_number");
+      var topic = form.querySelector("#id_capsule_topic");
+      if (exam && exam.value) url.searchParams.set("exam", exam.value);
+      else url.searchParams.delete("exam");
+      if (topic && topic.value) url.searchParams.set("topic", topic.value);
+      else url.searchParams.delete("topic");
+      window.location.href = url.toString();
+    });
+  });
+
+})();
+</script>
+
+{% if question and not creating %}
+<section class="panel mt-3">
+  <h2 class="h5 text-danger mb-3">Zone dangereuse</h2>
+  <p class="muted small mb-3">La suppression est définitive. Deux actions sont nécessaires.</p>
+  <form method="post" action="{% url 'quiz:teacher_question_delete' question.pk %}" id="question-delete-form" data-armed="0">
+    {% csrf_token %}
+    {% if request.GET.next %}
+    <input type="hidden" name="next" value="{{ request.GET.next }}">
+    {% else %}
+    <input type="hidden" name="next" value="{% url 'quiz:teacher_question_bank' %}">
+    {% endif %}
+    <div class="d-flex flex-wrap gap-2 align-items-center">
+      <button class="btn btn-outline-danger" type="button" id="question-delete-arm">
+        1 · Je veux supprimer cette question
+      </button>
+      <button class="btn btn-danger" type="submit" name="confirm_delete" value="1" id="question-delete-confirm" disabled>
+        2 · Confirmer la suppression définitive
+      </button>
+      <button class="btn btn-link text-muted p-0" type="button" id="question-delete-cancel" hidden>
+        Annuler
+      </button>
+    </div>
+    <p class="small text-danger mt-2 mb-0" id="question-delete-hint" hidden>
+      Cliquez sur le bouton rouge pour confirmer. Sinon annulez.
+    </p>
+  </form>
+</section>
+<script>
+(function () {
+  var form = document.getElementById("question-delete-form");
+  if (!form) return;
+  var arm = document.getElementById("question-delete-arm");
+  var confirmBtn = document.getElementById("question-delete-confirm");
+  var cancel = document.getElementById("question-delete-cancel");
+  var hint = document.getElementById("question-delete-hint");
+  var timer = null;
+
+  function reset() {
+    form.dataset.armed = "0";
+    confirmBtn.disabled = true;
+    cancel.hidden = true;
+    hint.hidden = true;
+    arm.disabled = false;
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+  }
+
+  arm.addEventListener("click", function () {
+    form.dataset.armed = "1";
+    confirmBtn.disabled = false;
+    cancel.hidden = false;
+    hint.hidden = false;
+    arm.disabled = true;
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(reset, 15000);
+  });
+
+  cancel.addEventListener("click", reset);
+
+  form.addEventListener("submit", function (event) {
+    if (form.dataset.armed !== "1") {
+      event.preventDefault();
+      return;
+    }
+    if (!window.confirm("Dernière vérification : supprimer définitivement cette question ?")) {
+      event.preventDefault();
+      reset();
+    }
+  });
+})();
+</script>
+{% endif %}
+{% endblock %}

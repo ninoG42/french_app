@@ -71,7 +71,7 @@ INSTALLED_APPS += ["django_extensions"]
 # Your stuff...
 # ------------------------------------------------------------------------------
 ACCOUNT_EMAIL_VERIFICATION = "none"
+MOCK_SSO = env.bool("MOCK_SSO", default=True)
 
 # Google Gemini API
 GEMINI_API_KEY = env("GEMINI_API_KEY", default="")
-

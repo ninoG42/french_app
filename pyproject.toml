@@ -24,6 +24,7 @@ dependencies = [
   "pymupdf>=1.27.2.2",
   "psycopg[binary]>=3.3.3",
   "google-genai>=1.74.0",
+  "boto3>=1.35.0",
 ]
 
 [dependency-groups]

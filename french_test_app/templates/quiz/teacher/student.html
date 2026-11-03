@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Parcours de {{ row.label }} — OP001{% endblock %}
+{% block content %}
+<a class="back-link" href="{% url 'quiz:teacher_dashboard' %}?group={{ group.pk }}">← {{ group.name }}</a>
+<header class="page-heading">
+  <div>
+    <p class="eyebrow">Suivi individuel · OP001</p>
+    <h1>{{ row.label }}</h1>
+    <p class="lead">{% if row.last %}Dernière activité le {{ row.last|date:'d.m.Y à H:i' }}{% else %}Le parcours commence avec le premier exercice.{% endif %}</p>
+  </div>
+</header>
+<section class="metric-grid" aria-label="Progression individuelle">
+  <div class="metric"><span>Questions explorées</span><strong>{{ row.seen }}<em> / {{ total_questions }}</em></strong><small>{{ row.coverage }} % du catalogue</small></div>
+  <div class="metric"><span>Questions acquises</span><strong>{{ row.strong }}</strong><small>{{ row.weak }} à retravailler</small></div>
+  <div class="metric"><span>Réussite au premier essai</span><strong>{% if row.rate != None %}{{ row.rate }}<em>%</em>{% else %}—{% endif %}</strong><small>{{ row.attempts }} tentatives au total</small></div>
+</section>
+
+<section class="panel">
+  <div class="section-heading">
+    <h2>Vue étudiant</h2>
+    <span>Catégories · examen · capsules</span>
+  </div>
+  <div class="d-flex gap-3 mb-3 small text-muted flex-wrap">
+    <span class="text-success">&#9632; Acquises</span>
+    <span class="text-warning">&#9632; En cours</span>
+    <span class="text-danger">&#9632; À revoir</span>
+  </div>
+  {% include "quiz/partials/topic_breakdown.html" %}
+</section>
+{% endblock %}

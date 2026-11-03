@@ -1,0 +1,20 @@
+{% extends "allauth/layouts/entrance.html" %}
+{% load crispy_forms_tags %}
+{% load socialaccount %}
+{% block head_title %}Connexion{% endblock %}
+{% block content %}
+<p class="eyebrow">Bienvenue</p><h2 class="mb-3">Retrouver mon espace</h2><p class="muted mb-4">Connectez-vous avec votre compte de cours.</p>
+{% if MOCK_SSO %}
+<div class="alert alert-info">
+  Mode test actif: connexion locale sans Microsoft SSO.
+</div>
+<form method="post" action="{% url 'account_login' %}">{% csrf_token %}{{ form|crispy }}{% if redirect_field_value %}<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">{% endif %}<button class="btn btn-primary w-100 mt-3" type="submit">Se connecter →</button></form>
+{% else %}
+<a class="btn btn-primary w-100 mb-3" href="{% provider_login_url 'microsoft' process='login' %}">Se connecter avec Microsoft</a>
+<details class="mb-3">
+  <summary>Connexion administrateur</summary>
+<form method="post" action="{% url 'account_login' %}">{% csrf_token %}{{ form|crispy }}{% if redirect_field_value %}<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">{% endif %}<button class="btn btn-primary w-100 mt-3" type="submit">Se connecter →</button></form>
+</details>
+{% endif %}
+{% if ACCOUNT_ALLOW_REGISTRATION %}<p class="small mt-4">Pas encore de compte ? <a href="{{ signup_url }}">Créer un compte</a></p>{% endif %}
+{% endblock %}

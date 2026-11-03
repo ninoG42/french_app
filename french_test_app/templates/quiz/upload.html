@@ -19,7 +19,7 @@
       <div class="mb-3">
         <label for="id_exam_number" class="form-label fw-bold">Numéro d'exemple</label>
         <input type="number" name="exam_number" id="id_exam_number"
-               class="form-control" min="1" max="99"
+               class="form-control" min="1" max="32767"
                value="{{ next_exam }}" required>
         <div class="form-text">Numéro unique pour cet examen (suivant : {{ next_exam }}).</div>
       </div>

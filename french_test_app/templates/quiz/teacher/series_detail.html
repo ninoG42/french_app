@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Série {{ exam_number }} — OP001{% endblock %}
+{% block content %}
+<header class="page-heading">
+  <div>
+    <p class="eyebrow">Espace enseignant</p>
+    <h1>Série {{ exam_number }}</h1>
+    <p class="lead">Ajouter, modifier et supprimer les questions QCM de cette série.</p>
+  </div>
+  <a class="btn btn-outline-secondary" href="{% url 'quiz:teacher_series_list' %}">Retour</a>
+</header>
+
+<section class="panel mb-3">
+  <h2>Ajouter une question</h2>
+  <form method="post" class="d-grid gap-3">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="create_question">
+    {{ create_form|crispy }}
+    <button class="btn btn-primary" type="submit">Ajouter</button>
+  </form>
+</section>
+
+<section class="panel">
+  <h2>Questions de la série</h2>
+  {% if questions %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Catégorie</th>
+          <th>Question</th>
+          <th>Réponse</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for q in questions %}
+        <tr>
+          <td>{{ q.question_number }}</td>
+          <td>{{ q.get_category_display }}</td>
+          <td>{{ q.question_text|striptags|truncatechars:100 }}</td>
+          <td>{{ q.correct_answer }}</td>
+          <td>
+            <a class="btn btn-sm btn-outline-primary" href="{% url 'quiz:teacher_question_edit' q.pk %}?next={% url 'quiz:teacher_series_detail' exam_number %}">Modifier</a>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p>Aucune question dans cette série.</p>
+  {% endif %}
+</section>
+{% endblock %}

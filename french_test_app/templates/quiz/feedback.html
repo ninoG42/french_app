@@ -28,7 +28,15 @@
     <!-- Question header -->
     <div class="d-flex justify-content-between align-items-center mb-2">
       <span class="badge bg-secondary">
-        Ex. {{ question.exam_number }} — Q{{ question.question_number }}
+        {% if question.source == "capsule" %}
+          Capsule — Q{{ question.question_number }}
+        {% elif question.source == "serie" %}
+          Examen — Q{{ question.question_number }}
+        {% elif question.source == "module" %}
+          Module — Q{{ question.question_number }}
+        {% else %}
+          Ex. {{ question.exam_number }} — Q{{ question.question_number }}
+        {% endif %}
       </span>
       <span class="badge
         {% if question.category == 'orthographe' %}bg-info
@@ -54,7 +62,7 @@
         {% endif %}">
         <div class="d-flex align-items-center">
           <strong class="me-2">{{ code }}</strong>
-          <span>{{ text }}</span>
+          <span>{{ text|safe }}</span>
           {% if code == question.correct_answer %}
           <span class="ms-auto badge bg-success">Correct</span>
           {% elif last_log and code == last_log.selected_answer and not last_log.is_correct %}
@@ -72,28 +80,10 @@
         <strong>Explication</strong>
       </div>
       <div class="card-body">
-        <p class="mb-0">{{ question.explanation }}</p>
+        <p class="mb-0">{{ question.explanation|safe }}</p>
       </div>
     </div>
     {% endif %}
-
-    <!-- AI Explanation button -->
-    {% csrf_token %}
-    <div class="mb-3">
-      <button type="button" id="ai-explain-btn" class="btn btn-outline-info w-100"
-              data-url="{% url 'quiz:ai_explain' question.pk %}">
-        <span id="ai-btn-text">Explication IA (Gemini)</span>
-        <span id="ai-spinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status"></span>
-      </button>
-      <div id="ai-explanation" class="card mt-2 border-info d-none">
-        <div class="card-header bg-info bg-opacity-10 d-flex justify-content-between align-items-center">
-          <strong>Explication IA</strong>
-          <span class="badge bg-info">Gemini</span>
-        </div>
-        <div id="ai-explanation-body" class="card-body"></div>
-      </div>
-      <div id="ai-error" class="alert alert-warning mt-2 d-none small"></div>
-    </div>
 
     <!-- Reference text for vocabulaire -->
     {% if question.reference_text %}
@@ -105,7 +95,7 @@
         </button>
         <div class="collapse mt-2" id="refText">
           <div class="small" style="max-height: 300px; overflow-y: auto;">
-            {{ question.reference_text|linebreaksbr }}
+            {{ question.reference_text|safe }}
           </div>
         </div>
       </div>
@@ -117,13 +107,13 @@
     <div class="text-center text-muted small mb-3">
       Vue {{ progress.times_shown }}× · Correct {{ progress.times_correct }}× ·
       Taux : {{ progress.correct_rate|percentage }} ·
-      Force :
+      Progression :
       <span class="
         {% if progress.strength == 'strong' %}text-success fw-bold
         {% elif progress.strength == 'medium' %}text-warning fw-bold
         {% elif progress.strength == 'weak' %}text-danger fw-bold
         {% else %}text-muted{% endif %}">
-        {{ progress.get_strength_display }}
+        {% if progress.strength == 'strong' %}Acquise{% elif progress.strength == 'medium' %}En cours{% elif progress.strength == 'weak' %}À revoir{% else %}À découvrir{% endif %}
       </span>
     </div>
     {% endif %}
@@ -139,57 +129,5 @@
     </div>
   </div>
 </div>
-{% endblock %}
-
-{% block inline_javascript %}
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script>
-window.addEventListener('DOMContentLoaded', () => {
-  const btn = document.getElementById('ai-explain-btn');
-  if (!btn) return;
-
-  btn.addEventListener('click', async () => {
-    const spinner = document.getElementById('ai-spinner');
-    const btnText = document.getElementById('ai-btn-text');
-    const resultDiv = document.getElementById('ai-explanation');
-    const bodyDiv = document.getElementById('ai-explanation-body');
-    const errorDiv = document.getElementById('ai-error');
-
-    btn.disabled = true;
-    spinner.classList.remove('d-none');
-    btnText.textContent = 'Chargement...';
-    resultDiv.classList.add('d-none');
-    errorDiv.classList.add('d-none');
-
-    try {
-      const resp = await fetch(btn.dataset.url, {
-        method: 'POST',
-        headers: {
-          'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value
-            || '{{ csrf_token }}',
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await resp.json();
-
-      if (data.error) {
-        errorDiv.textContent = data.error;
-        errorDiv.classList.remove('d-none');
-      } else {
-        bodyDiv.innerHTML = marked.parse(data.explanation);
-        resultDiv.classList.remove('d-none');
-        btn.classList.add('d-none');
-      }
-    } catch (e) {
-      errorDiv.textContent = 'Erreur de connexion. Réessayez.';
-      errorDiv.classList.remove('d-none');
-    } finally {
-      btn.disabled = false;
-      spinner.classList.add('d-none');
-      btnText.textContent = 'Explication IA (Gemini)';
-    }
-  });
-});
-</script>
 {% endblock %}
 

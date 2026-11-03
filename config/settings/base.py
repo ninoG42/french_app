@@ -25,7 +25,8 @@ DEBUG = env.bool("DJANGO_DEBUG", False)
 # In Windows, this must be set to your system time zone.
 TIME_ZONE = "Europe/Zurich"
 # https://docs.djangoproject.com/en/dev/ref/settings/#language-code
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "fr"
+LANGUAGES = [("fr", "Français")]
 # https://docs.djangoproject.com/en/dev/ref/settings/#languages
 # from django.utils.translation import gettext_lazy as _
 # LANGUAGES = [
@@ -76,6 +77,7 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "allauth.socialaccount.providers.microsoft",
 ]
 
 LOCAL_APPS = [
@@ -278,8 +280,24 @@ ACCOUNT_FORMS = {"signup": "french_test_app.users.forms.UserSignupForm"}
 SOCIALACCOUNT_ADAPTER = "french_test_app.users.adapters.SocialAccountAdapter"
 # https://docs.allauth.org/en/latest/socialaccount/configuration.html
 SOCIALACCOUNT_FORMS = {"signup": "french_test_app.users.forms.UserSocialSignupForm"}
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
+SOCIALACCOUNT_PROVIDERS = {
+    "microsoft": {
+        "APP": {
+            "client_id": env("MS_CLIENT_ID", default=""),
+            "secret": env("MS_CLIENT_SECRET", default=""),
+            "key": "",
+        },
+        "AUTH_PARAMS": {"tenant": env("MS_TENANT_ID", default="common")},
+    },
+}
+
+MOCK_SSO = env.bool("MOCK_SSO", default=False)
+SSO_ALLOWED_DOMAINS = env.list("SSO_ALLOWED_DOMAINS", default=[])
+TEACHER_EMAILS = env.list("TEACHER_EMAILS", default=[])
+DEFAULT_CLASS_NAME = env("DEFAULT_CLASS_NAME", default="HEPL")
 
 
 # Your stuff...
 # ------------------------------------------------------------------------------
-GEMINI_API_KEY = env("GEMINI_API_KEY", default="")

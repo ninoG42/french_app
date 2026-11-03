@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}Banque de questions — OP001{% endblock %}
+{% block content %}
+<header class="page-heading">
+  <div>
+    <p class="eyebrow">Espace enseignant</p>
+    <h1>Banque de questions</h1>
+    <p class="lead">Ajouter, modifier et valider les questions (séries, examens, capsules).</p>
+  </div>
+  <div class="d-flex gap-2 flex-wrap">
+    <a class="btn btn-primary" href="{% url 'quiz:teacher_question_create' %}">Nouvelle question</a>
+    <a class="btn btn-outline-primary" href="{% url 'quiz:catalogue_download' %}">Télécharger le catalogue</a>
+  </div>
+</header>
+
+<section class="panel mb-3">
+  <form method="get" class="row g-2 align-items-end">
+    <div class="col-md-3">
+      <label class="form-label">Source</label>
+      <select name="source" class="form-select">
+        <option value="">Toutes</option>
+        <option value="exam" {% if source == "exam" %}selected{% endif %}>Examens</option>
+        <option value="serie" {% if source == "serie" %}selected{% endif %}>Séries</option>
+        <option value="capsule" {% if source == "capsule" %}selected{% endif %}>Capsules</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Exemple/Série</label>
+      <select name="exam" class="form-select">
+        <option value="">Tous</option>
+        {% for e in exams %}
+        <option value="{{ e }}" {% if exam_number == e|stringformat:"s" %}selected{% endif %}>Ex. {{ e }}</option>
+        {% endfor %}
+        {% for s in series %}
+        <option value="{{ s }}" {% if exam_number == s|stringformat:"s" %}selected{% endif %}>Série {{ s }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Capsule</label>
+      <select name="topic" class="form-select">
+        <option value="">Toutes</option>
+        {% for t in topics %}
+        <option value="{{ t }}" {% if topic == t %}selected{% endif %}>{{ t }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Contrôle</label>
+      <select name="checked" class="form-select">
+        <option value="">Tous</option>
+        <option value="1" {% if checked == "1" %}selected{% endif %}>Validées</option>
+        <option value="0" {% if checked == "0" %}selected{% endif %}>À contrôler</option>
+      </select>
+    </div>
+    <div class="col-md-1">
+      <button type="submit" class="btn btn-primary w-100">Filtrer</button>
+    </div>
+  </form>
+</section>
+
+<section class="panel">
+  <div class="d-flex gap-3 mb-3 small text-muted flex-wrap">
+    <span><span class="question-status-dot checked"></span> Validée par un enseignant</span>
+    <span><span class="question-status-dot unchecked"></span> Pas encore contrôlée</span>
+  </div>
+  <div class="table-responsive">
+    <table class="table question-bank-table">
+      <thead>
+        <tr>
+          <th>État</th>
+          <th>Source</th>
+          <th>Ensemble</th>
+          <th>#</th>
+          <th>Question</th>
+          <th>Réponse</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for q in questions %}
+        <tr class="{% if q.teacher_checked %}question-row-checked{% else %}question-row-unchecked{% endif %}">
+          <td>
+            <form method="post" action="{% url 'quiz:teacher_question_toggle_checked' q.pk %}">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ request.get_full_path }}">
+              <button class="btn btn-sm {% if q.teacher_checked %}btn-success{% else %}btn-outline-danger{% endif %}" type="submit" title="{% if q.teacher_checked %}Marquer comme non contrôlée{% else %}Marquer comme contrôlée et correcte{% endif %}">
+                {% if q.teacher_checked %}Validée{% else %}À contrôler{% endif %}
+              </button>
+            </form>
+          </td>
+          <td>{{ q.get_source_display }}</td>
+          <td>
+            {% if q.source == "serie" %}
+              Série {{ q.exam_number }}
+            {% elif q.source == "exam" %}
+              Ex. {{ q.exam_number }}
+            {% else %}
+              {{ q.capsule_topic|default:"—" }}
+            {% endif %}
+          </td>
+          <td>{{ q.question_number }}</td>
+          <td>{{ q.question_text|striptags|truncatechars:100 }}</td>
+          <td>{{ q.correct_answer }}</td>
+          <td>
+            <a class="btn btn-sm btn-outline-primary" href="{% url 'quiz:teacher_question_edit' q.pk %}?next={{ request.get_full_path|urlencode }}">Modifier</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="7">Aucune question trouvée.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

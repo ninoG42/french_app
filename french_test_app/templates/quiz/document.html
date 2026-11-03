@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}{{ resource.title }} — Ressources OP001{% endblock %}
+{% block content %}
+<a class="back-link" href="{% url 'quiz:resources' %}">← Toutes les ressources</a>
+<header class="page-heading"><div><p class="eyebrow">{{ resource.get_category_display }} · {{ resource.get_material_type_display }}</p><h1 class="document-title">{{ resource.title }}</h1><p class="lead">{{ resource.topic }}</p></div><a class="btn btn-primary" href="{% url 'quiz:document_download' resource.pk %}">Télécharger le PDF ↓</a></header>
+<nav class="document-controls" aria-label="Pages du document">{% if previous_page %}<a class="btn btn-outline-primary" href="?page={{ previous_page }}">← Précédente</a>{% else %}<span class="btn btn-outline-secondary disabled" aria-disabled="true">← Précédente</span>{% endif %}<form method="get"><label for="pdf-page">Page</label><input id="pdf-page" class="form-control" type="number" name="page" min="1" max="{{ pages }}" value="{{ page }}"><span>sur {{ pages }}</span><button class="btn btn-outline-primary" type="submit">Aller</button></form>{% if next_page %}<a class="btn btn-outline-primary" href="?page={{ next_page }}">Suivante →</a>{% else %}<span class="btn btn-outline-secondary disabled" aria-disabled="true">Suivante →</span>{% endif %}</nav>
+<div class="document-preview"><img src="{% url 'quiz:document_page' resource.pk page %}" alt="Aperçu de {{ resource.title }}, page {{ page }} sur {{ pages }}. Le PDF original est disponible en téléchargement."></div>
+{% endblock %}

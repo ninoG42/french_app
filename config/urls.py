@@ -5,8 +5,10 @@ from django.urls import include
 from django.urls import path
 from django.views import defaults as default_views
 from django.views.generic import RedirectView, TemplateView
+from french_test_app.quiz.views import health
 
 urlpatterns = [
+    path("health/", health, name="health"),
     path("", RedirectView.as_view(url="/quiz/", permanent=False), name="home"),
     path(
         "about/",

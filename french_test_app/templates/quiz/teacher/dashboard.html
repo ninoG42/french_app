@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Espace enseignant — OP001{% endblock %}
+{% block content %}
+<section class="metric-grid" aria-label="Synthèse du groupe">
+  <div class="metric"><span>Étudiants</span><strong>{{ student_count }}</strong><small>{{ active_count }} ont commencé</small></div>
+  <div class="metric"><span>Réussite au premier essai</span><strong>{% if first_rate != None %}{{ first_rate }}<em>%</em>{% else %}—{% endif %}</strong><small>Premières tentatives, passages inclus</small></div>
+  <div class="metric"><span>Activité cumulée</span><strong>{{ attempt_count }}</strong><small>Tentatives enregistrées</small></div>
+</section>
+<div class="teaching-grid">
+<section class="panel"><div class="section-heading"><h2>Les acquis par domaine</h2><span>Premier essai</span></div>
+{% for c in categories %}<div class="domain-row"><div><strong>{{ c.label }}</strong><span>{% if c.rate != None %}{{ c.rate }} %{% else %}—{% endif %}</span></div><div class="bar-track"><div class="bar-fill" style="width:{{ c.rate|default_if_none:0 }}%"></div></div><small>{{ c.total }} première{{ c.total|pluralize }} tentative{{ c.total|pluralize }}</small></div>{% endfor %}
+</section>
+<section class="panel"><div class="section-heading"><h2>Le rythme du groupe</h2><span>14 derniers jours</span></div><div class="activity-chart" role="img" aria-label="Nombre de tentatives par jour, également disponible dans le détail ci-dessous">{% for day in days %}<div class="activity-column" title="{{ day.date|date:'d/m' }} : {{ day.total }} tentatives"><span>{{ day.total }}</span><div class="activity-track"><i style="height:{{ day.height }}%"></i></div><small>{{ day.date|date:'d' }}</small></div>{% endfor %}</div><p class="muted small">Toutes les tentatives, y compris les révisions.</p><details class="small"><summary>Détail par jour</summary>{% for day in days %}<div>{{ day.date|date:'d/m' }} : {{ day.total }} tentative{{ day.total|pluralize }}</div>{% endfor %}</details></section>
+</div>
+<div class="teaching-grid">
+<section class="panel"><div class="section-heading"><h2>À retravailler ensemble</h2><span>Les moins réussies</span></div>{% include 'quiz/teacher/ranking.html' with questions=hardest tone='warm' %}</section>
+<section class="panel"><div class="section-heading"><h2>Les points d’appui</h2><span>Les mieux réussies</span></div>{% include 'quiz/teacher/ranking.html' with questions=easiest tone='cool' %}</section>
+</div>
+<p class="method-note">Classements au premier essai · Au moins 3 étudiants par question · Un passage compte comme une tentative non réussie.</p>
+<section class="panel"><div class="section-heading"><h2>Chaque parcours compte</h2><span>{{ student_count }} étudiant{{ student_count|pluralize }}</span></div>
+{% if students %}<div class="table-responsive"><table class="table student-table"><caption class="visually-hidden">Progression des étudiants du groupe {{ group.name }}</caption><thead><tr><th scope="col">Étudiant</th><th scope="col">Questions explorées</th><th scope="col">Acquises</th><th scope="col">Premier essai</th><th scope="col">Dernière activité</th><th scope="col"><span class="visually-hidden">Parcours</span></th></tr></thead><tbody>{% for r in students %}<tr><td><a class="student-name" href="{% url 'quiz:teacher_student' r.student.pk %}?group={{ group.pk }}">{{ r.label }}</a>{% if not r.last %}<small class="d-block muted">Pas encore commencé</small>{% endif %}</td><td><span>{{ r.seen }} / {{ total_questions }}</span><div class="bar-track compact"><div class="bar-fill" style="width:{{ r.coverage }}%"></div></div></td><td>{{ r.strong }}</td><td>{% if r.rate != None %}{{ r.rate }} %{% else %}—{% endif %}</td><td>{{ r.last|date:'d.m.Y'|default:'—' }}</td><td><a href="{% url 'quiz:teacher_student' r.student.pk %}?group={{ group.pk }}" aria-label="Voir le parcours de {{ r.label }}">Voir →</a></td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty-state"><h3>Le groupe est prêt à accueillir ses étudiants.</h3><p>Ajoutez les étudiants à ce groupe dans l’administration. Leur progression apparaîtra ici dès leurs premiers exercices.</p></div>{% endif %}
+</section>
+{% endblock %}

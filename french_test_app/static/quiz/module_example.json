@@ -1,0 +1,15 @@
+[
+  {
+    "question_text": "Choisissez la forme correcte.",
+    "option_1": "Il faut que je vais.",
+    "option_2": "Il faut que j'aille.",
+    "option_3": "Il faut que je va.",
+    "option_4": "Il faut que j'irais.",
+    "option_a": "Aucune",
+    "option_t": "Toutes",
+    "correct_answer": "2",
+    "category": "syntaxe",
+    "explanation": "Apres 'il faut que', on utilise le subjonctif.",
+    "reference_text": ""
+  }
+]

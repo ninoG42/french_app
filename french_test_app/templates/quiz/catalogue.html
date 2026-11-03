@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Toutes les séries — OP001{% endblock %}
+{% block content %}
+<header class="page-heading"><div><p class="eyebrow">Catalogue d’entraînement · OP001</p><h1>Toutes les séries</h1><p class="lead">{{ total_questions }} questions · {{ capsule_topics|length }} thèmes de capsules{% if series %} · examen{% endif %}{% if modules %} · {{ modules|length }} modules{% endif %}</p></div></header>
+{% if series %}
+<section class="panel"><div class="section-heading"><h2>Examen</h2><span>{{ series.0.total }} questions</span></div><div class="catalogue-row">{% for s in series %}<a class="catalogue-item catalogue-item-compact" href="{% url 'quiz:practice' %}?exam={{ s.number }}&amp;source=serie"><strong>{{ s.label }} <span aria-hidden="true">→</span></strong><span>{{ s.total }} questions</span><small>{{ s.seen }} explorées · {{ s.strong }} acquises</small></a>{% endfor %}</div></section>
+{% endif %}
+<section class="panel"><div class="section-heading"><h2>Capsules avec QCM</h2><span>{{ capsule_topics|length }} thèmes</span></div><div class="catalogue-grid">{% for t in capsule_topics %}<a class="catalogue-item" href="{% url 'quiz:practice' %}?topic={{ t.name|urlencode }}"><strong>{{ t.name }} <span aria-hidden="true">→</span></strong><span>{{ t.total }} questions</span><small>{{ t.seen }} explorées · {{ t.strong }} acquises</small></a>{% empty %}<p>Aucun QCM de capsule importé.</p>{% endfor %}</div></section>
+{% if modules %}
+<section class="panel"><div class="section-heading"><h2>Modules enseignants</h2><span>{{ modules|length }} modules</span></div><div class="catalogue-grid">{% for m in modules %}<a class="catalogue-item" href="{% url 'quiz:practice' %}?module={{ m.id }}&amp;source=module"><strong>{{ m.title }} <span aria-hidden="true">→</span></strong><span>{{ m.total }} questions</span><small>{{ m.seen }} explorées · {{ m.strong }} acquises</small></a>{% endfor %}</div></section>
+{% endif %}
+{% endblock %}

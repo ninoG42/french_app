@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}{{ module.title }} — OP001{% endblock %}
+{% block content %}
+<header class="page-heading">
+  <div>
+    <p class="eyebrow">Espace enseignant</p>
+    <h1>{{ module.title }}</h1>
+    <p class="lead">{{ module.description|default:"Sans description" }}</p>
+  </div>
+  <div class="d-flex gap-2">
+    <a class="btn btn-outline-secondary" href="{% url 'quiz:teacher_question_bank' %}">Banque</a>
+    <a class="btn btn-outline-secondary" href="{% url 'quiz:teacher_modules' %}">Retour</a>
+  </div>
+</header>
+
+<section class="panel mb-3">
+  <div class="d-flex gap-2 justify-content-between">
+    <div>
+      <strong>Questions:</strong> {{ questions|length }} ·
+      <strong>Publié:</strong> {{ module.is_published|yesno:"Oui,Non" }}
+    </div>
+    <form method="post" action="{% url 'quiz:teacher_module_delete' module.pk %}" onsubmit="return confirm('Supprimer ce module et ses questions ?') && confirm('Confirmation définitive : supprimer vraiment ce module ? Cette action est irréversible.');">
+      {% csrf_token %}
+      <button class="btn btn-outline-danger" type="submit">Supprimer le module</button>
+    </form>
+  </div>
+</section>
+
+<section class="panel mb-3">
+  <h2>Ajouter une question QCM</h2>
+  <form method="post" class="d-grid gap-3">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="create_question">
+    {{ create_form|crispy }}
+    <button class="btn btn-primary" type="submit">Ajouter</button>
+  </form>
+</section>
+
+<section class="panel">
+  <h2>Questions du module</h2>
+  {% if questions %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Catégorie</th>
+          <th>Question</th>
+          <th>Réponse</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for q in questions %}
+        <tr>
+          <td>{{ q.question_number }}</td>
+          <td>{{ q.get_category_display }}</td>
+          <td>{{ q.question_text|striptags|truncatechars:100 }}</td>
+          <td>{{ q.correct_answer }}</td>
+          <td>
+            <a class="btn btn-sm btn-outline-primary" href="{% url 'quiz:teacher_question_edit' q.pk %}?next={% url 'quiz:teacher_module_detail' module.pk %}">Modifier</a>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p>Aucune question pour ce module.</p>
+  {% endif %}
+</section>
+{% endblock %}

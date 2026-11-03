@@ -277,3 +277,6 @@ french_test_app/media/
 .env
 db.sqlite3
 pdfs/
+
+# Isolated local presentation database
+.local-demo/

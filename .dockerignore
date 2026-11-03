@@ -7,6 +7,8 @@
 .pre-commit-config.yaml
 .readthedocs.yml
 .travis.yml
+.pytest_cache/
+.local-demo/
 venv
 .git
 .envs/
@@ -14,5 +16,15 @@ venv
 .env
 **/__pycache__/
 db.sqlite3
+dev.db
+*.sqlite3
 pdfs/
 scripts/
+aux_data/
+staticfiles/
+french_test_app/media/
+docs/
+topic_classification*.jsonl
+topic_classification*.bak
+capsule_questions.json
+backups/

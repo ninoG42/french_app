@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>
       {% block title %}
-      French Test App
+      Appui de français — OP001
     {% endblock title %}
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -30,6 +30,7 @@
   <link href="{% static 'css/project.css' %}" rel="stylesheet" />
 
 
+<link href="{% static 'css/hepl.css' %}" rel="stylesheet" />
 {% endblock css %}
 <!-- Le javascript
     ================================================== -->
@@ -50,66 +51,32 @@
 
   
   <script defer src="{% static 'js/project.js' %}"></script>
+  <script defer src="{% static 'js/question_rich_text.js' %}"></script>
 
 
 {% endblock javascript %}
 </head>
 <body class="{% block bodyclass %}{% endblock bodyclass %}">
   {% block body %}
-  <div class="mb-1">
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
-      <div class="container-fluid">
-        <button class="navbar-toggler navbar-toggler-right"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <a class="navbar-brand" href="{% url 'home' %}">French Test App</a>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'quiz:dashboard' %}">Tableau de bord</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'quiz:practice' %}">S'entraîner</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'quiz:resources' %}">Ressources</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'quiz:upload' %}">Importer</a>
-            </li>
-            {% if request.user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link"
-                   href="{% url 'users:detail' request.user.pk %}">{% translate "My Profile" %}</a>
-              </li>
-              <li class="nav-item">
-                {# URL provided by django-allauth/account/urls.py #}
-                <a class="nav-link" href="{% url 'account_logout' %}">{% translate "Sign Out" %}</a>
-              </li>
-            {% else %}
-              {% if ACCOUNT_ALLOW_REGISTRATION %}
-                <li class="nav-item">
-                  {# URL provided by django-allauth/account/urls.py #}
-                  <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% translate "Sign Up" %}</a>
-                </li>
-              {% endif %}
-              <li class="nav-item">
-                {# URL provided by django-allauth/account/urls.py #}
-                <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% translate "Sign In" %}</a>
-              </li>
-            {% endif %}
-          </ul>
-        </div>
-      </div>
+  <a class="skip-link" href="#main-content">Aller au contenu</a>
+  <header class="app-header">
+    <div class="brand-row">
+      <a class="app-brand" href="{% if is_teacher %}{% url 'quiz:teacher_dashboard' %}{% else %}{% url 'quiz:dashboard' %}{% endif %}"><span class="brand-mark">op<span>/</span></span><span>Appui de français<small>Préparation à l’examen OP001 · HEP Vaud</small></span></a>
+      <div class="account-links">{% if request.user.is_authenticated %}{% if is_teacher %}<a href="{% url 'users:detail' request.user.pk %}">{{ request.user.name|default:'Mon profil' }}</a>{% endif %}<a href="{% url 'account_logout' %}">Déconnexion</a>{% else %}<a href="{% url 'account_login' %}">Connexion</a>{% endif %}</div>
+    </div>
+    <nav class="app-nav" aria-label="Navigation principale">
+      {% if request.user.is_authenticated %}
+      <a href="{% url 'quiz:dashboard' %}" {% if request.resolver_match.url_name == 'dashboard' %}aria-current="page"{% endif %}>{% if is_teacher %}Vue étudiant{% else %}Ma progression{% endif %}</a>
+      <a href="{% url 'quiz:catalogue' %}" {% if request.resolver_match.url_name == 'catalogue' %}aria-current="page"{% endif %}>Toutes les séries</a>
+      <a href="{% url 'quiz:practice' %}" {% if request.resolver_match.url_name == 'practice' or request.resolver_match.url_name == 'feedback' %}aria-current="page"{% endif %}>M’entraîner</a>
+      {% if is_teacher %}<a class="nav-end" href="{% url 'quiz:teacher_dashboard' %}" {% if request.resolver_match.url_name == 'teacher_dashboard' or request.resolver_match.url_name == 'teacher_student' %}aria-current="page"{% endif %}>Espace enseignant ↗</a>{% endif %}
+      {% if is_teacher %}<a href="{% url 'quiz:teacher_question_bank' %}" {% if request.resolver_match.url_name == 'teacher_question_bank' or request.resolver_match.url_name == 'teacher_question_edit' or request.resolver_match.url_name == 'teacher_series_list' or request.resolver_match.url_name == 'teacher_series_detail' %}aria-current="page"{% endif %}>Questions</a>{% endif %}
+      {% if perms.quiz.add_question and perms.quiz.change_question %}<a href="{% url 'quiz:upload' %}">Importer</a>{% endif %}
+      {% else %}<span>Orthographe · Syntaxe · Vocabulaire</span>{% endif %}
     </nav>
-  </div>
-  <div class="container">
+  </header>
+  {% if is_demo %}<div class="demo-banner">Démonstration locale · Étudiants et résultats fictifs</div>{% endif %}
+  <main class="container app-main" id="main-content">
     {% if messages %}
       {% for message in messages %}
         <div class="alert alert-dismissible {% if message.tags %}alert-{{ message.tags }}{% endif %}">
@@ -127,7 +94,8 @@
       {% endblock content %}
     {% endblock main %}
 
-  </div>
+  </main>
+  <footer class="app-footer">Appui de français · OP001 <span>Projet pilote pour la HEP Vaud</span></footer>
   {% endblock body %}
   <!-- /container -->
   {% block modal %}

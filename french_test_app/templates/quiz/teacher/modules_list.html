@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Modules enseignants — OP001{% endblock %}
+{% block content %}
+<header class="page-heading">
+  <div>
+    <p class="eyebrow">Espace enseignant</p>
+    <h1>Modules de questions</h1>
+    <p class="lead">Créer, corriger et publier des modules QCM sans JSON.</p>
+  </div>
+  <div class="d-flex gap-2">
+    <a class="btn btn-outline-secondary" href="{% url 'quiz:teacher_question_bank' %}">Banque de questions</a>
+    <a class="btn btn-outline-secondary" href="{% url 'quiz:teacher_series_list' %}">Séries</a>
+    <a class="btn btn-outline-primary" href="{% url 'quiz:catalogue_download' %}">Télécharger le catalogue</a>
+    <a class="btn btn-primary" href="{% url 'quiz:teacher_module_create' %}">Nouveau module</a>
+  </div>
+</header>
+
+<section class="panel">
+  {% if modules %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Titre</th>
+          <th>Questions</th>
+          <th>Auteur</th>
+          <th>Publié</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for m in modules %}
+        <tr>
+          <td>{{ m.title }}</td>
+          <td>{{ m.questions.count }}</td>
+          <td>{{ m.created_by.name|default:m.created_by.email|default:"—" }}</td>
+          <td>{{ m.is_published|yesno:"Oui,Non" }}</td>
+          <td><a href="{% url 'quiz:teacher_module_detail' m.pk %}">Gérer →</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p>Aucun module pour le moment.</p>
+  {% endif %}
+</section>
+{% endblock %}

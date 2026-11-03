@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Séries — OP001{% endblock %}
+{% block content %}
+<header class="page-heading">
+  <div>
+    <p class="eyebrow">Espace enseignant</p>
+    <h1>Séries de questions</h1>
+    <p class="lead">Chaque série peut contenir plusieurs questions QCM modifiables.</p>
+  </div>
+  <div class="d-flex gap-2">
+    <a class="btn btn-outline-secondary" href="{% url 'quiz:teacher_question_bank' %}">Banque de questions</a>
+  </div>
+</header>
+
+<section class="panel">
+  {% if series %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Série</th>
+          <th>Questions</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in series %}
+        <tr>
+          <td>Série {{ s.exam_number }}</td>
+          <td>{{ s.total }}</td>
+          <td><a href="{% url 'quiz:teacher_series_detail' s.exam_number %}">Gérer →</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p>Aucune série existante.</p>
+  {% endif %}
+</section>
+{% endblock %}

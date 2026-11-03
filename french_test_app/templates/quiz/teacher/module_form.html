@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Nouveau module — OP001{% endblock %}
+{% block content %}
+<header class="page-heading">
+  <div>
+    <p class="eyebrow">Espace enseignant</p>
+    <h1>Créer un module</h1>
+  </div>
+  <a class="btn btn-outline-secondary" href="{% url 'quiz:teacher_modules' %}">Retour</a>
+</header>
+
+<section class="panel">
+  <form method="post" class="d-grid gap-3">
+    {% csrf_token %}
+    {{ module_form|crispy }}
+    <button class="btn btn-primary" type="submit">Créer le module</button>
+  </form>
+</section>
+{% endblock %}

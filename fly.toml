@@ -4,7 +4,7 @@ primary_region = "cdg"
 [build]
 
 [deploy]
-  release_command = "sh -c 'python manage.py migrate --noinput && python manage.py load_questions && python manage.py loaddata french_test_app/fixtures/resources.json'"
+  release_command = "python manage.py migrate --noinput"
 
 [env]
   DJANGO_SETTINGS_MODULE = "config.settings.production"
@@ -18,10 +18,25 @@ primary_region = "cdg"
   force_https = true
   auto_stop_machines = "stop"
   auto_start_machines = true
-  min_machines_running = 0
+  min_machines_running = 1
   processes = ["app"]
 
 [[vm]]
-  memory = "512mb"
+  memory = "1gb"
   cpu_kind = "shared"
   cpus = 1
+
+[mounts]
+  source = "media_data"
+  destination = "/app/french_test_app/media"
+
+[checks]
+  [checks.health]
+    type = "http"
+    interval = "15s"
+    timeout = "5s"
+    grace_period = "30s"
+    method = "get"
+    path = "/health/"
+    [checks.health.headers]
+      Host = "french-test-app.fly.dev"

@@ -199,11 +199,11 @@ def test_upload_page_loads(logged_in_page, live_server):
 
 
 # ---------------------------------------------------------------------------
-# Flow 8: Reset progress
+# Flow 8: Students cannot reset progress
 # ---------------------------------------------------------------------------
 
 @pytest.mark.django_db(transaction=True)
-def test_reset_progress(logged_in_page, live_server, sample_questions):
+def test_students_cannot_reset_progress(logged_in_page, live_server, sample_questions):
     page = logged_in_page
 
     page.goto(f"{live_server.url}/quiz/practice/")
@@ -212,11 +212,4 @@ def test_reset_progress(logged_in_page, live_server, sample_questions):
 
     page.goto(f"{live_server.url}/quiz/")
 
-    page.on("dialog", lambda dialog: dialog.accept())
-
-    page.get_by_role("button", name="Réinitialiser la progression").click()
-
-    page.wait_for_url(f"{live_server.url}/quiz/")
-
-    seen_text = page.locator("text=0 / 9")
-    expect(seen_text).to_be_visible()
+    expect(page.get_by_role("button", name="Réinitialiser la progression")).to_have_count(0)

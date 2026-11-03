@@ -3,21 +3,21 @@
 {% load static %}
 
 {% block title %}
-  User: 
-  
+  Mon profil :
+
     {{ object.name }}
-  
-  
+
+
 {% endblock title %}
 {% block content %}
   <div class="container">
     <div class="row">
       <div class="col-sm-12">
         <h2>
-        
-        
+
+
           {{ object.name }}
-        
+
       </h2>
     </div>
   </div>
@@ -25,10 +25,10 @@
     <!-- Action buttons -->
     <div class="row">
       <div class="col-sm-12">
-        <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>
+        <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">Modifier mes informations</a>
         <a class="btn btn-primary"
            href="{% url 'account_email' %}"
-           role="button">E-Mail</a>
+           role="button">Adresse e-mail</a>
         <!-- Your Stuff: Custom user template urls -->
       </div>
     </div>

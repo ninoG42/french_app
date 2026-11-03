@@ -1,13 +1,3 @@
 {% extends "base.html" %}
-
-{% block title %}Forbidden (403){% endblock title %}
-{% block content %}
-  <h1>Forbidden (403)</h1>
-  <p>
-    {% if exception %}
-      {{ exception }}
-    {% else %}
-      You're not allowed to access this page.
-    {% endif %}
-  </p>
-{% endblock content %}
+{% block title %}Accès réservé — OP001{% endblock %}
+{% block content %}<header class="page-heading"><div><p class="eyebrow">Accès réservé</p><h1>Cet espace ne vous est pas attribué.</h1><p class="lead">L’espace enseignant est accessible aux responsables d’un groupe de cours.</p><a class="btn btn-primary mt-4" href="{% url 'quiz:dashboard' %}">Revenir à ma progression</a></div></header>{% endblock %}

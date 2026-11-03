@@ -36,7 +36,9 @@ ENV PATH="/app/.venv/bin:$PATH"
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-RUN DATABASE_URL="" \
+# Placeholder Postgres URL so production settings load during image build
+# (collectstatic does not open a DB connection).
+RUN DATABASE_URL="postgres://build:build@127.0.0.1:5432/build" \
     DJANGO_SETTINGS_MODULE="config.settings.production" \
     DJANGO_SECRET_KEY="build-placeholder" \
     DJANGO_ADMIN_URL="admin/" \

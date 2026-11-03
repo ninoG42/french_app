@@ -1,31 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
-{% block bodyclass %}bg-light{% endblock bodyclass %}
-
-{% block css %}{{ block.super }}{% endblock css %}
-{% block title %}
-  {% block head_title %}
-    {% trans "Sign In" %}
-  {% endblock head_title %}
-{% endblock title %}
-{% block body %}
-  <div class="d-flex justify-content-center h-100 py-4">
-    <div class="col-md-4 py-4 my-4 px-4">
-      {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-dismissible {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-            {{ message }}
-            <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert"
-                    aria-label="Close"></button>
-          </div>
-        {% endfor %}
-      {% endif %}
-      {% block content %}
-      {% endblock content %}
-      {% block extra_body %}
-      {% endblock extra_body %}
-    </div>
-  </div>
-{% endblock body %}
+{% block title %}{% block head_title %}Connexion{% endblock %} — OP001{% endblock %}
+{% block main %}
+<div class="auth-layout"><section class="auth-intro"><p class="eyebrow">Appui de français · OP001</p><h1>Le français<br>se pratique.</h1><p class="lead">Des exercices ciblés.<br>Des explications claires.<br>Votre progression, pas à pas.</p><div class="auth-accent" aria-hidden="true">Aa<span>↗</span></div></section><section class="panel auth-panel">{% block content %}{% endblock %}{% block extra_body %}{% endblock %}</section></div>
+{% endblock %}

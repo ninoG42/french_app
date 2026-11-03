@@ -14,8 +14,10 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
+from django.contrib.auth.models import Group
+
 from french_test_app.users.forms import UserAdminChangeForm
-from french_test_app.users.tests.factories import UserFactory
+from french_test_app.users.roles import TEACHER_GROUP_NAME
 from french_test_app.users.views import UserRedirectView
 from french_test_app.users.views import UserUpdateView
 from french_test_app.users.views import user_detail_view
@@ -26,6 +28,12 @@ if TYPE_CHECKING:
     from french_test_app.users.models import User
 
 pytestmark = pytest.mark.django_db
+
+
+def _make_teacher(user: User) -> User:
+    group, _ = Group.objects.get_or_create(name=TEACHER_GROUP_NAME)
+    user.groups.add(group)
+    return user
 
 
 class TestUserUpdateView:
@@ -79,22 +87,41 @@ class TestUserUpdateView:
 
 
 class TestUserRedirectView:
-    def test_get_redirect_url(self, user: User, rf: RequestFactory):
+    def test_teacher_goes_to_profile(self, user: User, rf: RequestFactory):
+        teacher = _make_teacher(user)
+        view = UserRedirectView()
+        request = rf.get("/fake-url")
+        request.user = teacher
+
+        view.request = request
+        assert view.get_redirect_url() == f"/users/{teacher.pk}/"
+
+    def test_student_goes_to_dashboard(self, user: User, rf: RequestFactory):
         view = UserRedirectView()
         request = rf.get("/fake-url")
         request.user = user
 
         view.request = request
-        assert view.get_redirect_url() == f"/users/{user.pk}/"
+        assert view.get_redirect_url() == reverse("quiz:dashboard")
 
 
 class TestUserDetailView:
-    def test_authenticated(self, user: User, rf: RequestFactory):
+    def test_teacher_authenticated(self, user: User, rf: RequestFactory):
+        teacher = _make_teacher(user)
         request = rf.get("/fake-url/")
-        request.user = UserFactory.create()
-        response = user_detail_view(request, pk=user.pk)
+        request.user = teacher
+        response = user_detail_view(request, pk=teacher.pk)
 
         assert response.status_code == HTTPStatus.OK
+
+    def test_student_redirected_away(self, user: User, rf: RequestFactory):
+        request = rf.get("/fake-url/")
+        request.user = user
+        response = user_detail_view(request, pk=user.pk)
+
+        assert isinstance(response, HttpResponseRedirect)
+        assert response.status_code == HTTPStatus.FOUND
+        assert response.url == reverse("quiz:dashboard")
 
     def test_not_authenticated(self, user: User, rf: RequestFactory):
         request = rf.get("/fake-url/")
